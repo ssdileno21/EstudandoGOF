@@ -1,0 +1,7 @@
+unit Behavioral.Strategy.AlgoritmoOrdenacao;
+
+interface
+
+implementation
+
+end.

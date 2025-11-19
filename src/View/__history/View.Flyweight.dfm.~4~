@@ -1,0 +1,100 @@
+inherited frmFlyweight: TfrmFlyweight
+  Caption = 'Testar Flyweight'
+  ClientHeight = 728
+  ClientWidth = 495
+  StyleElements = [seFont, seClient, seBorder]
+  OnCreate = FormCreate
+  ExplicitWidth = 511
+  ExplicitHeight = 767
+  TextHeight = 15
+  inherited mInformacao: TMemo
+    Top = 465
+    Width = 489
+    Height = 260
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitLeft = 3
+    ExplicitTop = 264
+    ExplicitWidth = 444
+    ExplicitHeight = 260
+  end
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 489
+    Height = 34
+    Align = alTop
+    TabOrder = 1
+    object btnDesenhar: TButton
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 400
+      Height = 26
+      Align = alClient
+      Caption = 'Desenhar'
+      TabOrder = 0
+      ExplicitTop = 8
+      ExplicitHeight = 33
+    end
+    object btnLimpar: TButton
+      AlignWithMargins = True
+      Left = 410
+      Top = 4
+      Width = 75
+      Height = 26
+      Align = alRight
+      Caption = 'Limpar'
+      TabOrder = 1
+      ExplicitLeft = 232
+      ExplicitTop = 16
+      ExplicitHeight = 25
+    end
+  end
+  object Panel2: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 234
+    Width = 489
+    Height = 225
+    Align = alClient
+    TabOrder = 2
+    ExplicitTop = 224
+    ExplicitHeight = 235
+    object memLog: TMemo
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 481
+      Height = 217
+      Align = alClient
+      TabOrder = 0
+      ExplicitTop = 192
+      ExplicitHeight = 220
+    end
+  end
+  object Panel3: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 43
+    Width = 489
+    Height = 185
+    Align = alTop
+    TabOrder = 3
+    ExplicitLeft = 0
+    ExplicitTop = 40
+    ExplicitWidth = 495
+    object Image1: TImage
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 481
+      Height = 177
+      Align = alClient
+      ExplicitLeft = 224
+      ExplicitTop = 56
+      ExplicitWidth = 105
+      ExplicitHeight = 105
+    end
+  end
+end

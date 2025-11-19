@@ -1,0 +1,25 @@
+unit Behavioral.Command.Invoker;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Behavioral.Command.Command;
+
+type
+  TInvoker = class
+  private
+    FComandos: TObjectList<TCommand>;
+    FCurrent: Integer;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    procedure Compute(ACommand: TCommand);
+    procedure Undo(ALevels: Integer);
+    function Count: Integer;
+  end;
+
+implementation
+
+end.

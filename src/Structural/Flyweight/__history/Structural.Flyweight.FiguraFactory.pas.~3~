@@ -1,0 +1,53 @@
+unit Structural.Flyweight.FiguraFactory;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Structural.Flyweight.Figura;
+
+  type
+    TFiguraFactory = class
+    private
+      class var FPool: TObjectDictionary<string, TFigura>;
+      class constructor Create;
+      class destructor Destroy;
+    public
+      class function GetFigura(const ATipo: string): TFigura;
+      class function Count: Integer;
+      class function CacheInfo: string;
+  end;
+
+implementation
+
+uses
+  System.SysUtils;
+
+{ TFiguraFactory }
+
+class function TFiguraFactory.CacheInfo: string;
+begin
+
+end;
+
+class function TFiguraFactory.Count: Integer;
+begin
+
+end;
+
+class constructor TFiguraFactory.Create;
+begin
+
+end;
+
+class destructor TFiguraFactory.Destroy;
+begin
+
+end;
+
+class function TFiguraFactory.GetFigura(const ATipo: string): TFigura;
+begin
+
+end;
+
+end.

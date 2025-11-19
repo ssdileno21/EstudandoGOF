@@ -1,0 +1,21 @@
+unit Prototype.Partitura;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Prototype.NotaMusical;
+
+  type
+    TPartitura = class
+      private
+        class var FNotaMap: TObjectDictionary<string, TNotaMusical>;
+        class procedure EnsureInitialized; static;
+      public
+        class procedure CarregaNotas; static;
+        class function GetNota(const ANome: string): TNotaMusical; static;
+    end;
+
+implementation
+
+end.

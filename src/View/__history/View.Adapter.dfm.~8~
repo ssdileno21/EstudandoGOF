@@ -1,0 +1,91 @@
+inherited frmDefault1: TfrmDefault1
+  Caption = 'Testar Adapter'
+  ClientHeight = 627
+  StyleElements = [seFont, seClient, seBorder]
+  OnCreate = FormCreate
+  ExplicitHeight = 666
+  TextHeight = 15
+  inherited mInformacao: TMemo
+    Top = 392
+    Height = 232
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitLeft = 3
+    ExplicitTop = 392
+    ExplicitHeight = 232
+  end
+  object rgTomada: TRadioGroup
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 447
+    Height = 46
+    Align = alTop
+    Caption = 'Selecione a tomada'
+    Columns = 2
+    Items.Strings = (
+      'Tomada Brasileira'
+      'Tomada Americana')
+    TabOrder = 1
+  end
+  object rgPlug: TRadioGroup
+    AlignWithMargins = True
+    Left = 3
+    Top = 55
+    Width = 447
+    Height = 50
+    Align = alTop
+    Caption = 'Selecione o Plug'
+    Columns = 2
+    Items.Strings = (
+      'Plug Brasileiro'
+      'Plug Americano')
+    TabOrder = 2
+  end
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 111
+    Width = 447
+    Height = 35
+    Align = alTop
+    TabOrder = 3
+    ExplicitTop = 206
+    object btnLimpar: TButton
+      AlignWithMargins = True
+      Left = 368
+      Top = 4
+      Width = 75
+      Height = 27
+      Align = alRight
+      Caption = 'Limpar'
+      TabOrder = 0
+      ExplicitLeft = 360
+      ExplicitTop = 8
+      ExplicitHeight = 25
+    end
+    object btnConectar: TButton
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 358
+      Height = 27
+      Align = alClient
+      Caption = 'Conectar'
+      TabOrder = 1
+      ExplicitLeft = 279
+      ExplicitTop = 8
+      ExplicitWidth = 75
+      ExplicitHeight = 25
+    end
+  end
+  object memLog: TMemo
+    AlignWithMargins = True
+    Left = 3
+    Top = 152
+    Width = 447
+    Height = 234
+    Align = alClient
+    ScrollBars = ssBoth
+    TabOrder = 4
+  end
+end

@@ -1,0 +1,17 @@
+unit Builder.Hamburguer;
+
+interface
+
+uses
+  Builder.Sanduiche, System.SysUtils;
+
+  type
+    THamburguer = class(TSanduiche)
+      //
+    end;
+
+implementation
+
+{ THamburguer }
+
+end.

@@ -1,0 +1,22 @@
+unit Prototype.NotaRe;
+
+interface
+
+uses
+  Prototype.NotaMusical;
+
+  type
+    TRe = class(TNotaMusical)
+      procedure Desenha; override;
+    end;
+
+implementation
+
+{ TRe }
+
+procedure TRe.Desenha;
+begin
+  Write('Re ');
+end;
+
+end.

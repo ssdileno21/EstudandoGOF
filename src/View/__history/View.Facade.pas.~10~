@@ -1,0 +1,99 @@
+unit View.Facade;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Structural.Facade.Facade;
+
+type
+  TfrmFacade = class(TfrmDefault)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    memLog: TMemo;
+    btnCenarioA: TButton;
+    btnMetodoB: TButton;
+    btnLimpar: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure btnCenarioAClick(Sender: TObject);
+    procedure btnMetodoBClick(Sender: TObject);
+    procedure btnLimparClick(Sender: TObject);
+  private
+    { Private declarations }
+    FFacade: TFacade;
+    procedure ExecutarFacade(const AMetodo: Char);
+  public
+    { Public declarations }
+  end;
+
+var
+  frmFacade: TfrmFacade;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmFacade.btnLimparClick(Sender: TObject);
+begin
+  inherited;
+  memLog.Clear;
+end;
+
+procedure TfrmFacade.btnCenarioAClick(Sender: TObject);
+begin
+  inherited;
+  ExecutarFacade('A');
+end;
+
+procedure TfrmFacade.btnMetodoBClick(Sender: TObject);
+begin
+  inherited;
+  ExecutarFacade('B');
+end;
+
+procedure TfrmFacade.ExecutarFacade(const AMetodo: Char);
+begin
+  memLog.Clear;
+
+  case AMetodo of
+    'A':
+      begin
+        memLog.Lines.Add('Chamando Facade.MetodoA (ordem: 1 -> 2 -> 3):');
+        memLog.Lines.Add('');
+        FFacade.MetodoA(memLog.Lines);
+      end;
+    'B':
+      begin
+        memLog.Lines.Add('Chamando Facade.MetodoB (ordem: 3 -> 2 -> 1):');
+        memLog.Lines.Add('');
+        FFacade.MetodoB(memLog.Lines);
+      end;
+  end;
+
+  memLog.Lines.Add('');
+  memLog.Lines.Add('Como o Facade está montado:');
+  memLog.Lines.Add(' - TSubsistemaUm, TSubsistemaDois e TSubsistemaTres');
+  memLog.Lines.Add('   representam partes internas do sistema.');
+  memLog.Lines.Add(' - TFacade encapsula esses objetos e expõe métodos');
+  memLog.Lines.Add('   simples (MetodoA/MetodoB) para o cliente.');
+  memLog.Lines.Add(' - A tela conversa apenas com TFacade, sem conhecer');
+  memLog.Lines.Add('   diretamente cada subsistema.');
+end;
+
+procedure TfrmFacade.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FFacade := TFacade.Create;
+  memLog.Clear;
+  memLog.ScrollBars := ssVertical;
+end;
+
+procedure TfrmFacade.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FFacade);
+  inherited;
+end;
+
+end.

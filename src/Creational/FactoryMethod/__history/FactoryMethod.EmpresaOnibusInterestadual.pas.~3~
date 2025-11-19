@@ -1,0 +1,45 @@
+{
+
+  É uma fábrica concreta.
+
+  Decide qual classe de passagem criar.
+
+}
+
+
+unit FactoryMethod.EmpresaOnibusInterestadual;
+
+interface
+
+uses
+  System.SysUtils,
+  FactoryMethod.Empresa,
+  FactoryMethod.Passagem,
+  FactoryMethod.PassagemOnibusInterestadual;
+
+  type
+    TEmpresaOnibusInterestadual = class(TEmpresa)
+    public
+      function EmitirPassagem(
+        const AORigem, ADestino: string;
+        const ADataHoraPartida: TDateTime
+      ): TPassagem; override;
+
+    end;
+
+implementation
+
+{ TEmpresaOnibusInterestadual }
+
+function TEmpresaOnibusInterestadual.EmitirPassagem(const AORigem,
+  ADestino: string; const ADataHoraPartida: TDateTime): TPassagem;
+begin
+  Result := TPassagemOnibusInterestadual.Create(
+    AORigem,
+    ADestino,
+    ADataHoraPartida
+  );
+
+end;
+
+end.

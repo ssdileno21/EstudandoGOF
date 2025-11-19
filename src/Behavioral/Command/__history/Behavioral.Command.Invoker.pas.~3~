@@ -1,0 +1,77 @@
+unit Behavioral.Command.Invoker;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Behavioral.Command.Command;
+
+  type
+    TInvoker = class
+    private
+      FComandos: TObjectList<TCommand>;
+      FCurrent: Integer;
+    public
+      constructor Create;
+      destructor Destroy; override;
+
+      procedure Compute(ACommand: TCommand);
+      procedure Undo(ALevels: Integer);
+      function Count: Integer;
+  end;
+
+implementation
+
+{ TInvoker }
+
+procedure TInvoker.Compute(ACommand: TCommand);
+begin
+  if ACommand = nil then
+    Exit;
+
+  // executa o comando
+  ACommand.Execute;
+
+  // se tivermos “desfeito” coisas e chamarmos um novo comando,
+  // o que estiver depois de FCurrent é descartado (estilo editor)
+  while FComandos.Count > FCurrent do
+    FComandos.Delete(FComandos.Count - 1);
+
+  FComandos.Add(ACommand);
+  Inc(FCurrent);
+end;
+
+function TInvoker.Count: Integer;
+begin
+
+end;
+
+constructor TInvoker.Create;
+begin
+
+end;
+
+destructor TInvoker.Destroy;
+begin
+
+  inherited;
+end;
+
+procedure TInvoker.Undo(ALevels: Integer);
+var
+  I: Integer;
+  Cmd: TCommand;
+begin
+  for I := 1 to ALevels do
+  begin
+    if FCurrent <= 0 then
+      Break;
+
+    Dec(FCurrent);                // aponta para o último comando executado
+    Cmd := FComandos[FCurrent];   // pego sem remover ainda
+    Cmd.Undo;                     // desfaz
+    FComandos.Delete(FCurrent);   // remove da lista (e já dá Free)
+  end;
+end;
+
+end.

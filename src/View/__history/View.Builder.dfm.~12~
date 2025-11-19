@@ -1,0 +1,129 @@
+inherited frmBuilder: TfrmBuilder
+  Caption = 'Testar Builder'
+  ClientHeight = 592
+  ClientWidth = 511
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 527
+  ExplicitHeight = 631
+  TextHeight = 15
+  inherited mInformacao: TMemo
+    Top = 336
+    Width = 505
+    Height = 253
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitTop = 336
+    ExplicitWidth = 505
+    ExplicitHeight = 253
+  end
+  object GroupBox1: TGroupBox
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 505
+    Height = 327
+    Align = alClient
+    Caption = 'Cozinha'
+    TabOrder = 1
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 453
+    ExplicitHeight = 186
+    object Panel2: TPanel
+      AlignWithMargins = True
+      Left = 5
+      Top = 20
+      Width = 244
+      Height = 302
+      Align = alLeft
+      BorderStyle = bsSingle
+      TabOrder = 0
+      ExplicitTop = 22
+      ExplicitHeight = 260
+      object btnCancelarHamburguer: TButton
+        AlignWithMargins = True
+        Left = 4
+        Top = 269
+        Width = 232
+        Height = 25
+        Align = alBottom
+        Caption = 'Cancelar'
+        TabOrder = 0
+        ExplicitLeft = 10
+      end
+      object btnMontarHamburguer: TButton
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 232
+        Height = 25
+        Align = alTop
+        Caption = 'Montar Hamburguer'
+        TabOrder = 1
+        OnClick = btnMontarHamburguerClick
+        ExplicitLeft = 8
+        ExplicitTop = 12
+      end
+      object mHamburguer: TMemo
+        AlignWithMargins = True
+        Left = 4
+        Top = 35
+        Width = 232
+        Height = 228
+        Align = alClient
+        Lines.Strings = (
+          '')
+        TabOrder = 2
+        ExplicitLeft = 10
+      end
+    end
+    object Panel1: TPanel
+      AlignWithMargins = True
+      Left = 255
+      Top = 20
+      Width = 245
+      Height = 302
+      Align = alClient
+      BorderStyle = bsSingle
+      TabOrder = 1
+      ExplicitLeft = 249
+      ExplicitTop = 22
+      object btnMontarFishburguer: TButton
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 233
+        Height = 25
+        Align = alTop
+        Caption = 'Montar Fishburguer'
+        TabOrder = 0
+        OnClick = btnMontarFishburguerClick
+        ExplicitLeft = 8
+        ExplicitTop = 12
+      end
+      object btnCancelarFishburguer: TButton
+        AlignWithMargins = True
+        Left = 4
+        Top = 269
+        Width = 233
+        Height = 25
+        Align = alBottom
+        Caption = 'Cancelar'
+        TabOrder = 1
+        ExplicitLeft = -2
+      end
+      object mFishburguer: TMemo
+        AlignWithMargins = True
+        Left = 4
+        Top = 35
+        Width = 233
+        Height = 228
+        Align = alClient
+        Lines.Strings = (
+          '')
+        TabOrder = 2
+        ExplicitLeft = 8
+        ExplicitTop = 43
+      end
+    end
+  end
+end

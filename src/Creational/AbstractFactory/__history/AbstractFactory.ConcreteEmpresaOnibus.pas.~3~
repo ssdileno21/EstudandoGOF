@@ -1,0 +1,16 @@
+unit AbstractFactory.ConcreteEmpresaOnibus;
+
+interface
+
+uses
+  System.SysUtils;
+  {AbstractFactory.EmpresaOnibus,
+  AbstractFactory.PassagemOnibusUrbano,
+  AbstractFactory.PassagemOnibusInterestadual,
+  AbstractFactory.ConcretePassagemOnibusUrbano,
+  AbstractFactory.ConcretePassagemOnibusInterestadual;}
+
+
+implementation
+
+end.

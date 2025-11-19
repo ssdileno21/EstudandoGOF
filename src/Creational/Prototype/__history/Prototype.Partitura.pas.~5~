@@ -1,0 +1,62 @@
+unit Prototype.Partitura;
+
+interface
+
+uses
+  System.Generics.Collections,
+  Prototype.NotaMusical;
+
+  type
+    TPartitura = class
+      private
+        class var FNotaMap: TObjectDictionary<string, TNotaMusical>;
+        class procedure EnsureInitialized; static;
+      public
+        class procedure CarregaNotas; static;
+        class function GetNota(const ANome: string): TNotaMusical; static;
+    end;
+
+implementation
+
+{ TPartitura }
+
+uses Prototype.NotaDo, Prototype.NotaFa, Prototype.NotaLa, Prototype.NotaMi,
+  Prototype.NotaRe, Prototype.NotaSi, Prototype.NotaSol;
+
+class procedure TPartitura.CarregaNotas;
+begin
+  EnsureInitialized;
+  FNotaMap.Clear;
+
+  FNotaMap.Add('Do', TNotaDo.Create);
+  FNotaMap.Add('Re', TNotaRe.Create);
+  FNotaMap.Add('Mi', TNotaDo.Create);
+  FNotaMap.Add('Fa', TNotaDo.Create);
+  FNotaMap.Add('Sol', TNotaDo.Create);
+  FNotaMap.Add('La', TNotaDo.Create);
+  FNotaMap.Add('Si', TNotaDo.Create);
+
+end;
+
+class procedure TPartitura.EnsureInitialized;
+begin
+  if FNotaMap = nil then
+    FNotaMap := TObjectDictionary<string, TNotaMusical>.Create([doOwnsValues]);
+end;
+
+class function TPartitura.GetNota(const ANome: string): TNotaMusical;
+var
+  LNota: TNotaMusical;
+begin
+  EnsureInitialized;
+
+  if not FNotaMap.TryGetValue(ANome, LNota) then
+    Exit(nil);
+
+  Result := LNota.Clone;
+end;
+
+  initialization
+    TPartitura.CarregaNotas;
+
+end.

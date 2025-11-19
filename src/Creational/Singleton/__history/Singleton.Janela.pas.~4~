@@ -1,0 +1,42 @@
+unit Singleton.Janela;
+
+interface
+
+uses
+  System.SysUtils, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Winapi.Windows, Winapi.Messages, System.Classes;
+
+type
+  TJanela = class
+  private
+    FLargura: Integer;
+    FAltura: Integer;
+
+    class var FInstance: TJanela;
+    constructor Create; // construtor privado
+  public
+    class function GetInstance: TJanela;
+
+    property Largura: Integer read FLargura write FLargura;
+    property Altura: Integer read FAltura write FAltura;
+  end;
+
+implementation
+
+{ TJanela }
+
+constructor TJanela.Create;
+begin
+  inherited Create(nil);
+  FLargura := 640;
+  FAltura  := 480;
+end;
+
+class function TJanela.GetInstance: TJanela;
+begin
+  if FInstance = nil then
+    FInstance := TJanela.Create;
+  Result := FInstance;
+end;
+
+end.

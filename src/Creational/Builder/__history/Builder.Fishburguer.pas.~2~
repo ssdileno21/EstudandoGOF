@@ -1,0 +1,16 @@
+unit Builder.Fishburguer;
+
+interface
+
+uses
+  Builder.Sanduiche;
+
+  type
+    TFishburguer = class(TSanduiche)
+      //
+    end;
+
+
+implementation
+
+end.

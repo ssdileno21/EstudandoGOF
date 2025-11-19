@@ -1,0 +1,62 @@
+{
+  TPassagem (abstract)
+
+  É o produto abstrato.
+
+  Define a interface comum das passagens: origem, destino, data/hora de partida
+  e o método ExibeDetalhes.
+
+  Ninguém instancia TPassagem diretamente, porque ela é abstrata. Ela só diz
+  “toda passagem precisa saber mostrar seus detalhes”.
+}
+
+
+unit FactoryMethod.Passagem;
+
+interface
+
+uses
+  System.SysUtils, System.DateUtils;
+
+
+  type
+    TPassagem = class abstract
+    private
+      FOrigem: string;
+      FDestino: string;
+      FDataHoraPartida: TDateTime;
+
+    protected
+      FDateFormat: string;
+
+    public
+      constructor Create(
+        const AOrigem, ADestino: string;
+        const ADataHoraPartida: TDateTime
+      ); virtual;
+
+    property Origem: string read FOrigem write FOrigem;
+    property Destino: string read FDestino write FDestino;
+    property DataHoraPartida: TDateTime read FDataHoraPartida write FDataHoraPartida;
+
+    procedure ExibeDetalhes; virtual; abstract;
+
+    end;
+
+
+implementation
+
+{ TPassagem }
+
+constructor TPassagem.Create(const AOrigem, ADestino: string;
+  const ADataHoraPartida: TDateTime);
+begin
+  inherited Create;
+  FOrigem := AOrigem;
+  FDestino := ADestino;
+  FDataHoraPartida := ADataHoraPartida;
+
+  FDateFormat := 'dd/MM/yyyy HH:mm';
+end;
+
+end.

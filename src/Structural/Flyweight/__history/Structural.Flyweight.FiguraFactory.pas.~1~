@@ -1,0 +1,7 @@
+unit Structural.Flyweight.FiguraFactory;
+
+interface
+
+implementation
+
+end.

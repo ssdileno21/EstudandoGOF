@@ -1,0 +1,7 @@
+unit Structural.Flyweight.Linha;
+
+interface
+
+implementation
+
+end.

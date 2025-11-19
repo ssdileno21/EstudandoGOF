@@ -1,0 +1,49 @@
+unit Builder.HamburguerBuilder;
+
+interface
+
+uses
+  Builder.SanduicheBuilder,
+  Builder.Sanduiche,
+  Builder.Hamburguer;
+
+  type
+    THamburguerBuilder = class(TSanduicheBuilder)
+      public
+        constructor Create; override;
+
+        procedure AbrePao; override;
+        procedure InsereIngredientes; override;
+        procedure FechaPao; override;
+    end;
+
+
+implementation
+
+{ THamburguerBuilder }
+
+procedure THamburguerBuilder.AbrePao;
+begin
+  FSanduiche.Pao := 'Pão de Hambúrguer';
+  FSanduiche.Fechado := False;
+end;
+
+constructor THamburguerBuilder.Create;
+begin
+  inherited Create;
+  FSanduiche := THamburguer.Create;
+end;
+
+procedure THamburguerBuilder.FechaPao;
+begin
+  inherited;
+
+end;
+
+procedure THamburguerBuilder.InsereIngredientes;
+begin
+  inherited;
+
+end;
+
+end.

@@ -1,0 +1,29 @@
+unit Builder.Hamburguer;
+
+interface
+
+uses
+  Builder.Sanduiche, System.SysUtils;
+
+  type
+    THamburguer = class(TSanduiche)
+      private
+        FPontoDaCarne: string;
+        FTemBacon: Boolean;
+      public
+        property PontoDaCarne: string read FPontoDaCarne write FPontoDaCarne;
+        property TemBacon: Boolean read FTemBacon write FTemBacon;
+
+        function ResumoPedido: string; override;
+    end;
+
+implementation
+
+{ THamburguer }
+
+function THamburguer.ResumoPedido: string;
+begin
+
+end;
+
+end.

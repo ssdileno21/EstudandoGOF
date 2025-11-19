@@ -1,0 +1,26 @@
+unit Builder.Hamburguer;
+
+interface
+
+uses
+  Builder.Sanduiche, System.SysUtils;
+
+  type
+    THamburguer = class(TSanduiche)
+      public
+        function Descricao: string; override;
+    end;
+
+implementation
+
+{ THamburguer }
+
+function THamburguer.Descricao: string;
+begin
+  if FFechado then
+    Result := Format('%s com %s (fechado)', [FPao, FRecheio])
+  else
+    Result := Format('%s com %s (Aberto)', [FPao, FRecheio]);
+end;
+
+end.

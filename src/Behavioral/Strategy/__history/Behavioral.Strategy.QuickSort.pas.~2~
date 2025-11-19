@@ -1,0 +1,48 @@
+unit Behavioral.Strategy.QuickSort;
+
+interface
+
+uses
+  Behavioral.Strategy.AlgoritmoOrdenacao;
+
+  type
+    TQuickSort = class(TInterfacedObject, IAlgoritmoOrdenacao)
+    public
+      procedure Ordenar(var AValue: TArray<Integer>);
+      function Nome: string;
+  end;
+
+implementation
+
+{ TQuickSort }
+
+function TQuickSort.Nome: string;
+begin
+
+end;
+
+procedure TQuickSort.Ordenar(var AValue: TArray<Integer>);
+
+  procedure QS(L, R: Integer);
+  var
+    I, J, P, T: Integer;
+  begin
+    I := L; J := R; P := AValue[(L + R) div 2];
+    repeat
+      while AValue[I] < P do Inc(I);
+      while AValue[J] > P do Dec(J);
+      if I <= J then
+      begin
+        T := AValue[I]; AValue[I] := AValue[J]; AValue[J] := T;
+        Inc(I); Dec(J);
+      end;
+    until I > J;
+    if L < J then QS(L, J);
+    if I < R then QS(I, R);
+  end;
+
+begin
+  if Length(A) > 1 then QS(0, High(A));
+end;
+
+end.

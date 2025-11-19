@@ -1,0 +1,82 @@
+inherited frmDefault1: TfrmDefault1
+  Caption = 'frmDefault1'
+  StyleElements = [seFont, seClient, seBorder]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  TextHeight = 15
+  inherited mInformacao: TMemo
+    StyleElements = [seFont, seClient, seBorder]
+  end
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 43
+    Width = 447
+    Height = 143
+    Align = alClient
+    TabOrder = 1
+    ExplicitLeft = 112
+    ExplicitTop = 24
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object memLog: TMemo
+      Left = 1
+      Top = 1
+      Width = 445
+      Height = 141
+      Align = alClient
+      TabOrder = 0
+      ExplicitLeft = 0
+      ExplicitTop = 2
+    end
+  end
+  object Panel2: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 447
+    Height = 34
+    Align = alTop
+    TabOrder = 2
+    object btnMetodoA: TButton
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 189
+      Height = 26
+      Align = alLeft
+      Caption = 'M'#233'todo A'
+      TabOrder = 0
+      OnClick = btnMetodoAClick
+    end
+    object btnMetodoB: TButton
+      AlignWithMargins = True
+      Left = 199
+      Top = 4
+      Width = 163
+      Height = 26
+      Align = alClient
+      Caption = 'M'#233'todo B'
+      TabOrder = 1
+      OnClick = btnMetodoBClick
+      ExplicitLeft = 207
+      ExplicitTop = 1
+      ExplicitWidth = 155
+      ExplicitHeight = 39
+    end
+    object btnLimpar: TButton
+      AlignWithMargins = True
+      Left = 368
+      Top = 4
+      Width = 75
+      Height = 26
+      Align = alRight
+      Caption = 'Limpar'
+      TabOrder = 2
+      OnClick = btnLimparClick
+      ExplicitLeft = 328
+      ExplicitTop = 8
+      ExplicitHeight = 25
+    end
+  end
+end

@@ -1,0 +1,68 @@
+unit Structural.Facade.Facade;
+
+interface
+
+uses
+  System.Classes,
+  Structural.Facade.SubsistemaUm,
+  Structural.Facade.SubsistemaDois,
+  Structural.Facade.SubsistemaTres;
+
+  type
+    TFacade = class
+    private
+      FSis1: TSubsistemaUm;
+      FSis2: TSubsistemaDois;
+      FSis3: TSubsistemaTres;
+    public
+      constructor Create;
+      destructor Destroy; override;
+
+      procedure MetodoA(ALog: TStrings);
+      procedure MetodoB(ALog: TStrings);
+  end;
+
+
+implementation
+
+{ TFacade }
+
+constructor TFacade.Create;
+begin
+  inherited Create;
+  FSis1 := TSubsistemaUm.Create;
+  FSis2 := TSubsistemaDois.Create;
+  FSis3 := TSubsistemaTres.Create;
+end;
+
+destructor TFacade.Destroy;
+begin
+  FreeAndNil(FSis1);
+  FreeAndNil(FSis2);
+  FreeAndNil(FSis3);
+  inherited;
+end;
+
+procedure TFacade.MetodoA(ALog: TStrings);
+begin
+  if not Assigned(ALog) then
+    Exit;
+
+  // mesma ideia do metodoA() em Java: 1 -> 2 -> 3
+  FSis1.MetodoUm(ALog);
+  FSis2.MetodoDois(ALog);
+  FSis3.MetodoTres(ALog);
+end;
+
+procedure TFacade.MetodoB(ALog: TStrings);
+begin
+  if not Assigned(ALog) then
+    Exit;
+
+  // mesma ideia do metodoB() em Java: 3 -> 2 -> 1
+  FSis3.MetodoTres(ALog);
+  FSis2.MetodoDois(ALog);
+  FSis1.MetodoUm(ALog);
+end;
+
+end.

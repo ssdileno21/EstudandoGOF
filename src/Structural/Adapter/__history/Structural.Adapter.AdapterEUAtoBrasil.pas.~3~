@@ -1,0 +1,19 @@
+unit Structural.Adapter.AdapterEUAtoBrasil;
+
+interface
+
+uses
+  Structural.Adapter.TomadaAmericana,
+  Structural.Adapter.TomadaBrasileira,
+  Structural.Adapter.Plug;
+
+  type
+    // Adapter: permite ligar um plug americano em uma tomada "vista" como brasileira
+    TAdapterEuaToBrasil = class(TTomadaBrasileira)
+      public
+        function ConectaAmericano(APlug: TPlugAmericano
+    end;
+
+implementation
+
+end.

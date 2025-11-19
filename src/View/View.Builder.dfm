@@ -1,0 +1,135 @@
+inherited frmBuilder: TfrmBuilder
+  Caption = 'Testar Builder'
+  ClientHeight = 477
+  ClientWidth = 511
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitWidth = 527
+  ExplicitHeight = 516
+  TextHeight = 15
+  inherited mInformacao: TMemo
+    Top = 291
+    Width = 505
+    Height = 183
+    Lines.Strings = (
+      'A tela "Builder" demonstra o padr'#227'o Builder (GoF).'
+      ''
+      
+        'TCozinha atua como o diretor: ela sabe a ordem de montagem do sa' +
+        'ndu'#237'che,'
+      'mas n'#227'o conhece os detalhes do produto.'
+      ''
+      
+        'Cada builder concreto (THamburguerBuilder, TFishBuilder) monta p' +
+        'asso a passo'
+      
+        'um produto espec'#237'fico (THamburguer ou TFishburguer), preenchendo' +
+        ' p'#227'o, recheio,'
+      'tamanho, pre'#231'o e extras.'
+      ''
+      
+        'A tela s'#243' escolhe qual builder usar e no fim obt'#233'm o sandu'#237'che p' +
+        'ronto,'
+      'sem precisar saber como ele foi constru'#237'do internamente.')
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitLeft = 3
+    ExplicitTop = 291
+    ExplicitWidth = 505
+    ExplicitHeight = 183
+  end
+  object GroupBox1: TGroupBox
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 505
+    Height = 282
+    Align = alClient
+    Caption = 'Cozinha'
+    TabOrder = 1
+    object Panel2: TPanel
+      AlignWithMargins = True
+      Left = 5
+      Top = 20
+      Width = 244
+      Height = 257
+      Align = alLeft
+      BorderStyle = bsSingle
+      TabOrder = 0
+      object btnCancelarHamburguer: TButton
+        AlignWithMargins = True
+        Left = 4
+        Top = 224
+        Width = 232
+        Height = 25
+        Align = alBottom
+        Caption = 'Cancelar'
+        TabOrder = 0
+        OnClick = btnCancelarHamburguerClick
+      end
+      object btnMontarHamburguer: TButton
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 232
+        Height = 25
+        Align = alTop
+        Caption = 'Montar Hamburguer'
+        TabOrder = 1
+        OnClick = btnMontarHamburguerClick
+      end
+      object mHamburguer: TMemo
+        AlignWithMargins = True
+        Left = 4
+        Top = 35
+        Width = 232
+        Height = 183
+        Align = alClient
+        Lines.Strings = (
+          '')
+        TabOrder = 2
+      end
+    end
+    object Panel1: TPanel
+      AlignWithMargins = True
+      Left = 255
+      Top = 20
+      Width = 245
+      Height = 257
+      Align = alClient
+      BorderStyle = bsSingle
+      TabOrder = 1
+      object btnMontarFishburguer: TButton
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 233
+        Height = 25
+        Align = alTop
+        Caption = 'Montar Fishburguer'
+        TabOrder = 0
+        OnClick = btnMontarFishburguerClick
+      end
+      object btnCancelarFishburguer: TButton
+        AlignWithMargins = True
+        Left = 4
+        Top = 224
+        Width = 233
+        Height = 25
+        Align = alBottom
+        Caption = 'Cancelar'
+        TabOrder = 1
+        OnClick = btnCancelarFishburguerClick
+      end
+      object mFishburguer: TMemo
+        AlignWithMargins = True
+        Left = 4
+        Top = 35
+        Width = 233
+        Height = 183
+        Align = alClient
+        Lines.Strings = (
+          '')
+        TabOrder = 2
+      end
+    end
+  end
+end

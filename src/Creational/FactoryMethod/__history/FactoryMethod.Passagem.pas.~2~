@@ -1,0 +1,37 @@
+unit FactoryMethod.Passagem;
+
+interface
+
+uses
+  System.SysUtils, System.DateUtils;
+
+
+  type
+    TPassagem = class abstract
+    private
+      FOrigem: string;
+      FDestino: string;
+      FDataHoraPartida: TDateTime;
+
+    protected
+      FDateFormat: string;
+
+    public
+      constructor Create(
+        const AOrigem, ADestino: string;
+        const ADataHoraPartida: TDateTime
+      ); virtual;
+
+    property Origem: string read FOrigem write FOrigem;
+    property Destino: string read FDestino write FDestino;
+    property DataHoraPartida: TDateTime read FDataHoraPartida write FDataHoraPartida;
+
+    procedure ExibeDetalhe; virtual; abstract;
+
+
+    end;
+
+
+implementation
+
+end.

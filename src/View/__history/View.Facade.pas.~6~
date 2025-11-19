@@ -1,0 +1,41 @@
+unit View.Facade;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Structural.Facade.Facade;
+
+type
+  TfrmDefault1 = class(TfrmDefault)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    memLog: TMemo;
+    btnMetodoA: TButton;
+    btnMetodoB: TButton;
+    btnLimpar: TButton;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    FFacade: TFacade;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDefault1: TfrmDefault1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmDefault1.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FFacade := TFacade.Create;
+  memLog.Clear;
+  memLog.ScrollBars := ssVertical;
+end;
+
+end.

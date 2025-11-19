@@ -1,0 +1,32 @@
+unit Behavioral.Command.Calculadora;
+
+interface
+
+  type
+    TCalculadora = class
+    private
+      FValor: Integer;
+    public
+      constructor Create; virtual;
+
+      property Valor: Integer read FValor write FValor;
+
+      procedure Reset;
+  end;
+
+implementation
+
+{ TCalculadora }
+
+constructor TCalculadora.Create;
+begin
+  inherited;
+  FValor := 0;
+end;
+
+procedure TCalculadora.Reset;
+begin
+
+end;
+
+end.

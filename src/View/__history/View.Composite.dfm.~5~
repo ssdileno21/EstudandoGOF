@@ -1,0 +1,34 @@
+inherited frmComposite: TfrmComposite
+  Caption = 'Testar Composite'
+  ClientHeight = 485
+  StyleElements = [seFont, seClient, seBorder]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  ExplicitHeight = 524
+  TextHeight = 15
+  inherited mInformacao: TMemo
+    Top = 312
+    StyleElements = [seFont, seClient, seBorder]
+    ExplicitLeft = -2
+    ExplicitTop = 312
+  end
+  object memLog: TMemo
+    AlignWithMargins = True
+    Left = 3
+    Top = 151
+    Width = 447
+    Height = 155
+    Align = alClient
+    TabOrder = 1
+    ExplicitLeft = -2
+  end
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 447
+    Height = 142
+    Align = alTop
+    TabOrder = 2
+  end
+end

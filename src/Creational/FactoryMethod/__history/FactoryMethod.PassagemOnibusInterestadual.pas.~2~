@@ -1,0 +1,34 @@
+unit FactoryMethod.PassagemOnibusInterestadual;
+
+interface
+
+uses
+  System.SysUtils,
+  Vcl.Dialogs,
+  FactoryMethod.Passagem;
+
+  type
+    TPassagemOnibusInterestadual = class(TPassagem)
+
+    public
+      procedure ExibeDetalhes; override;
+    end;
+
+implementation
+
+{ TPassagemOnibusInterestadual }
+
+procedure TPassagemOnibusInterestadual.ExibeDetalhes;
+var
+  LMsg: string;
+begin
+  LMsg :=
+    'Passagem de Ônibus Interestadual' + sLineBreak +
+    'Origem: ' + Origem + sLineBreak +
+    'Destino: ' + Destino + sLineBreak +
+    'Data/Hora de Partida: ' +
+      FormatDateTime(FDateFormat, DataHoraPartida);
+
+end;
+
+end.

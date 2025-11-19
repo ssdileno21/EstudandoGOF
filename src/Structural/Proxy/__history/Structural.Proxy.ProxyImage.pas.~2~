@@ -1,0 +1,49 @@
+unit Structural.Proxy.ProxyImage;
+
+interface
+
+uses
+  Structural.Proxy.ImagemBase,
+  Structural.Proxy.RealImage;
+
+  type
+    TProxyImage = class(TImagemBase)
+    private
+      FNomeArquivo: string;
+      FRealImage: TRealImage;
+    public
+      constructor Create(const ANomeArquivo: string);
+      destructor Destroy; override;
+
+      procedure Exibir; override;
+  end;
+
+
+implementation
+
+{ TProxyImage }
+
+constructor TProxyImage.Create(const ANomeArquivo: string);
+begin
+  inherited Create;
+  FNomeArquivo := ANomeArquivo;
+  FRealImage := nil;
+end;
+
+destructor TProxyImage.Destroy;
+begin
+  FRealImage.Free;
+  inherited;
+end;
+
+procedure TProxyImage.Exibir;
+begin
+  // Lazy loading: só cria a imagem real na primeira chamada
+  if FRealImage = nil then
+    FRealImage := TRealImage.Create(FNomeArquivo);
+
+  // Depois disso, só delega
+  FRealImage.Exibir;
+end;
+
+end.

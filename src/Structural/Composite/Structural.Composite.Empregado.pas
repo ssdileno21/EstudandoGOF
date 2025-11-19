@@ -1,0 +1,38 @@
+unit Structural.Composite.Empregado;
+
+interface
+
+uses
+  System.Classes;
+
+  type
+  TEmpregado = class abstract
+    private
+      FNome   : string;
+      FSalario: Double;
+    public
+      constructor Create(const ANome: string; ASalario: Double); virtual;
+
+      property Nome   : string read FNome;
+      property Salario: Double read FSalario;
+
+      // imprime a estrutura a partir deste nó
+      procedure Print(const AIndent: string; const ALines: TStrings); virtual; abstract;
+
+      // operações de composição
+      procedure Add(AEmpregado: TEmpregado); virtual; abstract;
+      procedure Remove(AEmpregado: TEmpregado); virtual; abstract;
+  end;
+
+implementation
+
+{ TEmpregado }
+
+constructor TEmpregado.Create(const ANome: string; ASalario: Double);
+begin
+  inherited Create;
+  FNome := ANome;
+  FSalario := ASalario;
+end;
+
+end.

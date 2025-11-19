@@ -1,0 +1,266 @@
+unit View.Decorator;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Buttons, Vcl.Imaging.pngimage,   Structural.Decorator.Arvore,
+  Structural.Decorator.ArvoreNatal, Structural.Decorator.Bola,
+  Structural.Decorator.Estrela, Structural.Decorator.PiscaPisca;
+
+type
+  TfrmDecorator = class(TfrmDefault)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    memLog: TMemo;
+    imgArvore: TImage;
+    tmrPisca: TTimer;
+    sbPiscar: TSpeedButton;
+    sbPisca: TSpeedButton;
+    sbEstrela: TSpeedButton;
+    sbBolas: TSpeedButton;
+    sbLimpar: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure sbDecorClick(Sender: TObject);
+    procedure sbPiscarClick(Sender: TObject);
+    procedure sbLimparClick(Sender: TObject);
+    procedure tmrPiscaTimer(Sender: TObject);
+  private
+    { Private declarations }
+    FArvore: TArvore;
+    FPiscaOn: Boolean;          // estado atual das luzes (para escolher img 4-0 ou 5)
+    procedure AtualizarControles;
+    procedure MontarArvore;     // monta a cadeia de decorators
+    procedure AtualizarImagem;  // escolhe qual PNG carregar
+    procedure AtualizarLog;     // escreve FArvore.Mostrar no memo
+    procedure CarregarImagem(const AFileName: string);
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDecorator: TfrmDecorator;
+
+implementation
+
+{$R *.dfm}
+
+const
+  IMG_BASE       = 'ArvoreNatal-1.png';   // árvore sem enfeites
+  IMG_BOLAS      = 'ArvoreNatal-2.png';   // só bolas
+  IMG_BOLA_ESTRELA = 'ArvoreNatal-3.png'; // bolas + estrela
+  IMG_PISCA_OFF  = 'ArvoreNatal-4-0.png'; // bolas + estrela, luzes apagadas
+  IMG_PISCA_ON   = 'ArvoreNatal-5.png';   // bolas + estrela, luzes acesas
+
+
+{ TfrmDecorator }
+
+procedure TfrmDecorator.AtualizarControles;
+begin
+  // Estrela depende de bolas
+  sbEstrela.Enabled := sbBolas.Down;
+  if not sbEstrela.Enabled then
+    sbEstrela.Down := False;
+
+  // Pisca depende de estrela
+  sbPisca.Enabled := sbEstrela.Down;
+  if not sbPisca.Enabled then
+  begin
+    sbPisca.Down := False;
+    tmrPisca.Enabled := False;
+    FPiscaOn := False;
+  end;
+
+  sbPiscar.Enabled := sbPisca.Down;
+  if not sbPiscar.Enabled then
+    sbPiscar.Caption := 'Ligar pisca-pisca';
+end;
+
+procedure TfrmDecorator.AtualizarImagem;
+var
+  LImg: string;
+begin
+  if not sbBolas.Down then
+    LImg := IMG_BASE
+  else if sbBolas.Down and (not sbEstrela.Down) then
+    LImg := IMG_BOLAS
+  else if sbEstrela.Down and (not sbPisca.Down) then
+    LImg := IMG_BOLA_ESTRELA
+  else
+  begin
+    // sbPisca.Down = True
+    if FPiscaOn then
+      LImg := IMG_PISCA_ON
+    else
+      LImg := IMG_PISCA_OFF;
+  end;
+
+  CarregarImagem(LImg);
+end;
+
+procedure TfrmDecorator.AtualizarLog;
+begin
+  memLog.Clear;
+  if Assigned(FArvore) then
+    memLog.Lines.Text := FArvore.Mostrar;
+end;
+
+procedure TfrmDecorator.CarregarImagem(const AFileName: string);
+var
+  LBasePath, LFullPath: string;
+begin
+  // Pasta do EXE + ..\lib\
+  LBasePath := ExpandFileName(ExtractFilePath(ParamStr(0)) + '..\lib\');
+  LBasePath := IncludeTrailingPathDelimiter(LBasePath);
+  LFullPath := LBasePath + AFileName;
+
+  if FileExists(LFullPath) then
+    imgArvore.Picture.LoadFromFile(LFullPath)
+  else
+    memLog.Lines.Add('Imagem não encontrada: ' + LFullPath);
+end;
+
+procedure TfrmDecorator.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  FArvore := nil;
+  FPiscaOn := False;
+
+  tmrPisca.Enabled := False;
+  tmrPisca.Interval := 400;
+
+  // Cada SpeedButton em um "grupo" próprio para virar toggle
+  sbBolas.GroupIndex   := 1;
+  sbEstrela.GroupIndex := 2;
+  sbPisca.GroupIndex   := 3;
+
+  sbBolas.AllowAllUp   := True;
+  sbEstrela.AllowAllUp := True;
+  sbPisca.AllowAllUp   := True;
+
+  imgArvore.Stretch := True;
+  imgArvore.Proportional := True;
+
+  memLog.Clear;
+  memLog.ScrollBars := ssVertical;
+
+  sbPiscar.Caption := 'Ligar pisca-pisca';
+
+  // garante que todos usam o mesmo handler
+  sbBolas.OnClick   := sbDecorClick;
+  sbEstrela.OnClick := sbDecorClick;
+  sbPisca.OnClick   := sbDecorClick;
+
+  AtualizarControles;
+  MontarArvore;
+  AtualizarImagem;
+end;
+
+procedure TfrmDecorator.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FArvore);
+  inherited;
+end;
+
+procedure TfrmDecorator.MontarArvore;
+var
+  LArvore: TArvore;
+begin
+  FreeAndNil(FArvore);
+
+  LArvore := TArvoreNatal.Create;
+
+  if sbBolas.Down   then LArvore := TBola.Create(LArvore);
+  if sbEstrela.Down then LArvore := TEstrela.Create(LArvore);
+  if sbPisca.Down   then LArvore := TPiscaPisca.Create(LArvore);
+
+  FArvore := LArvore;
+  AtualizarLog;
+end;
+
+procedure TfrmDecorator.sbDecorClick(Sender: TObject);
+var
+  SB: TSpeedButton;
+begin
+  // NÃO mexe em SB.Down: com GroupIndex > 0 e AllowAllUp = True
+  // o próprio SpeedButton já faz o toggle correto.
+
+  AtualizarControles;
+
+  // se tirou o pisca, paramos o efeito
+  if not sbPisca.Down then
+  begin
+    tmrPisca.Enabled := False;
+    FPiscaOn := False;
+  end;
+
+  MontarArvore;
+  AtualizarImagem;
+end;
+
+procedure TfrmDecorator.sbLimparClick(Sender: TObject);
+begin
+  inherited;
+
+  sbBolas.Down   := False;
+  sbEstrela.Down := False;
+  sbPisca.Down   := False;
+
+  FPiscaOn := False;
+  tmrPisca.Enabled := False;
+  sbPiscar.Caption := 'Ligar pisca-pisca';
+
+  AtualizarControles;
+  MontarArvore;
+  AtualizarImagem;
+
+end;
+
+procedure TfrmDecorator.sbPiscarClick(Sender: TObject);
+begin
+  inherited;
+
+  // Se o decorator de pisca não estiver ativo, não faz sentido ligar
+  if not sbPisca.Down then
+  begin
+    ShowMessage('Ative o pisca-pisca na árvore primeiro.');
+    Exit;
+  end;
+
+  // Se o timer estiver desligado, LIGA o pisca
+  if not tmrPisca.Enabled then
+  begin
+    FPiscaOn := True;                      // começa aceso
+    tmrPisca.Enabled := True;
+    sbPiscar.Caption := 'Desligar pisca-pisca';
+  end
+  else
+  begin
+    // Se já estava ligado, DESLIGA o pisca
+    tmrPisca.Enabled := False;
+    FPiscaOn := False;
+    sbPiscar.Caption := 'Ligar pisca-pisca';
+    AtualizarImagem;                       // volta para imagem "parada"
+  end;
+end;
+
+procedure TfrmDecorator.tmrPiscaTimer(Sender: TObject);
+begin
+  // se o pisca foi desmarcado, encerra
+  if not sbPisca.Down then
+  begin
+    tmrPisca.Enabled := False;
+    FPiscaOn := False;
+    AtualizarImagem;
+    Exit;
+  end;
+
+  FPiscaOn := not FPiscaOn;
+  AtualizarImagem;
+end;
+
+end.

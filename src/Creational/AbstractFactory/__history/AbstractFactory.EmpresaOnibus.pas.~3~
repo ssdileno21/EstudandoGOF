@@ -1,0 +1,25 @@
+unit AbstractFactory.EmpresaOnibus;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  AbstractFactory.PassagemOnibusUrbano;{,
+  AbstractFactory.PassagemOnibusInterestadual;}
+
+  type
+    TEmpresaOnibus = class abstract
+
+    public
+      function EmitirPassagemOnibusUrbano(
+        const AOrigem, ADestino: string;
+        const ADataHoraPartida: TDatetime
+      ): TPassagemOnibusUrbano; virtual; abstract;
+
+    end;
+
+
+implementation
+
+end.

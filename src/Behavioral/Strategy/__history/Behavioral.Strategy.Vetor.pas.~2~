@@ -1,0 +1,23 @@
+unit Behavioral.Strategy.Vetor;
+
+interface
+
+uses
+  System.SysUtils, System.Math, System.Diagnostics,
+  Behavioral.Strategy.AlgoritmoOrdenacao;
+
+type
+  TVetor = class
+  private
+    FValores: TArray<Integer>;
+  public
+    procedure PreencherAleatorio(Qtd, Min, Max: Integer);
+    function  ComoString: string;
+    function  Clone: TArray<Integer>;
+    procedure Ordenar(const Estrategia: IAlgoritmoOrdenacao; out TempoMS: Int64);
+    property  Valores: TArray<Integer> read FValores write FValores;
+  end;
+
+implementation
+
+end.

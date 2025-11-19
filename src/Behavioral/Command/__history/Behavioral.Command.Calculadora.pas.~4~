@@ -1,0 +1,148 @@
+unit Behavioral.Command.Calculadora;
+
+interface
+
+  type
+    TOperacao = (opNone, opAdd, opSub);
+
+  TCalcSnapshot = record
+    Acc       : Currency;
+    Display   : string;
+    Pending   : TOperacao;
+    ClearNext : Boolean;
+  end;
+
+  type
+    TCalculadora = class
+    private
+      FAcc      : Currency;
+      FDisplay  : string;
+      FPending  : TOperacao;
+      FClearNext: Boolean;
+      function  DisplayToCurr: Currency;
+      procedure SetDisplayFromCurr(const AValue: Currency);
+      procedure ApplyPendingWith(const AValue: Currency);
+    public
+      constructor Create; virtual;
+      function  Snapshot: TCalcSnapshot;
+      procedure Restore(const S: TCalcSnapshot);
+
+      // ações atômicas que os commands chamam
+      procedure EnterDigit(const ADigit: Char);
+      procedure EnterComma;
+      procedure ClearAll;
+      procedure PressAdd;
+      procedure PressSub;
+      procedure PressTotal;
+
+      // leitura para UI
+      property Display: string   read FDisplay;
+      property Acc    : Currency read FAcc;
+  end;
+
+implementation
+
+{ TCalculadora }
+
+uses
+  System.SysUtils;
+
+procedure TCalculadora.ApplyPendingWith(const AValue: Currency);
+begin
+  case FPending of
+    opNone: FAcc := AValue;
+    opAdd : FAcc := FAcc + AValue;
+    opSub : FAcc := FAcc - AValue;
+  end;
+  SetDisplayFromCurr(FAcc);
+end;
+
+procedure TCalculadora.ClearAll;
+begin
+  FAcc := 0;
+  FDisplay := '0';
+  FPending := opNone;
+  FClearNext := False;
+end;
+
+constructor TCalculadora.Create;
+begin
+  inherited;
+  FAcc      := 0;
+  FDisplay  := '0';
+  FPending  := opNone;
+  FClearNext:= False;
+end;
+
+function TCalculadora.DisplayToCurr: Currency;
+var FS: TFormatSettings;
+begin
+  FS := TFormatSettings.Create;
+  Result := StrToCurrDef(FDisplay, 0, FS);
+end;
+
+procedure TCalculadora.EnterComma;
+begin
+  if FClearNext then
+  begin
+    FDisplay := '0';
+    FClearNext := False;
+  end;
+  if Pos(',', FDisplay) = 0 then
+    FDisplay := FDisplay + ',';
+end;
+
+procedure TCalculadora.EnterDigit(const ADigit: Char);
+begin
+  if FClearNext or (FDisplay = '0') then
+  begin
+    FDisplay := ADigit;
+    FClearNext := False;
+  end
+  else
+    FDisplay := FDisplay + ADigit;
+end;
+
+procedure TCalculadora.PressAdd;
+begin
+  ApplyPendingWith(DisplayToCurr);
+  FPending   := opAdd;
+  FClearNext := True;
+end;
+
+procedure TCalculadora.PressSub;
+begin
+  ApplyPendingWith(DisplayToCurr);
+  FPending   := opSub;
+  FClearNext := True;
+end;
+
+procedure TCalculadora.PressTotal;
+begin
+  ApplyPendingWith(DisplayToCurr);
+  FPending   := opNone;
+  FClearNext := True;
+end;
+
+procedure TCalculadora.Restore(const S: TCalcSnapshot);
+begin
+  FAcc       := S.Acc;
+  FDisplay   := S.Display;
+  FPending   := S.Pending;
+  FClearNext := S.ClearNext;
+end;
+
+procedure TCalculadora.SetDisplayFromCurr(const AValue: Currency);
+begin
+  FDisplay := CurrToStr(AValue);
+end;
+
+function TCalculadora.Snapshot: TCalcSnapshot;
+begin
+  Result.Acc       := FAcc;
+  Result.Display   := FDisplay;
+  Result.Pending   := FPending;
+  Result.ClearNext := FClearNext;
+end;
+
+end.

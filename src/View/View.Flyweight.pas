@@ -1,0 +1,133 @@
+unit View.Flyweight;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmFlyweight = class(TfrmDefault)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    btnDesenhar: TButton;
+    btnLimpar: TButton;
+    memLog: TMemo;
+    Panel3: TPanel;
+    imgArea: TImage;
+    procedure FormCreate(Sender: TObject);
+    procedure btnDesenharClick(Sender: TObject);
+    procedure btnLimparClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure LimparArea;
+    procedure DesenharExemplo;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmFlyweight: TfrmFlyweight;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  System.Math, Structural.Flyweight.Figura, Structural.Flyweight.FiguraFactory;
+
+{ TfrmFlyweight }
+
+procedure TfrmFlyweight.btnDesenharClick(Sender: TObject);
+begin
+  inherited;
+  DesenharExemplo;
+end;
+
+procedure TfrmFlyweight.btnLimparClick(Sender: TObject);
+begin
+  imgArea.Picture.Bitmap.Canvas.Brush.Color := clWhite;
+  imgArea.Picture.Bitmap.Canvas.FillRect(Rect(0, 0, imgArea.Width, imgArea.Height));
+  imgArea.Refresh;
+  memLog.Lines.Clear;
+end;
+
+procedure TfrmFlyweight.DesenharExemplo;
+const
+  QTDE_DESENHOS = 20;
+var
+  I          : Integer;
+  TipoFigura : string;
+  Figura     : TFigura;
+  X, Y       : Integer;
+  Larg, Alt  : Integer;
+  Cor        : TColor;
+begin
+  LimparArea;
+  memLog.Clear;
+
+  memLog.Lines.Add('Exemplo Flyweight: várias figuras reutilizando poucos objetos.');
+  memLog.Lines.Add('');
+
+  Randomize;
+
+  for I := 1 to QTDE_DESENHOS do
+  begin
+    // escolhe tipo de figura
+    if Random(2) = 0 then
+      TipoFigura := 'linha'
+    else
+      TipoFigura := 'oval';
+
+    // estado extrínseco aleatório
+    X    := RandomRange(10, imgArea.Width  - 60);
+    Y    := RandomRange(10, imgArea.Height - 60);
+    Larg := RandomRange(30, 120);
+    Alt  := RandomRange(30, 120);
+
+    // cor aleatória
+    Cor := RGB(Random(256), Random(256), Random(256));
+
+    // pega o Flyweight do factory (reutilizado)
+    Figura := TFiguraFactory.GetFigura(TipoFigura);
+
+    // log do uso da instância
+    memLog.Lines.Add(Format(
+      'Desenho %2d: Tipo=%s - usando instância %p (Flyweight).',
+      [I, TipoFigura, Pointer(Figura)]
+    ));
+
+    // desenha na área
+    Figura.Desenhar(imgArea.Picture.Bitmap.Canvas, X, Y, Larg, Alt, Cor);
+  end;
+
+  imgArea.Refresh;
+
+  memLog.Lines.Add('');
+  memLog.Lines.Add(TFiguraFactory.CacheInfo);
+  memLog.Lines.Add('Repare que várias chamadas usam o mesmo objeto em memória.');
+end;
+
+procedure TfrmFlyweight.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  memLog.Clear;
+  memLog.ScrollBars := ssVertical;
+
+  imgArea.Picture.Bitmap := TBitmap.Create;
+  imgArea.Picture.Bitmap.SetSize(imgArea.Width, imgArea.Height);
+  LimparArea;
+
+  btnDesenhar.Caption := 'Desenhar figuras (Flyweight)';
+  btnLimpar.Caption   := 'Limpar';
+end;
+
+procedure TfrmFlyweight.LimparArea;
+begin
+  imgArea.Picture.Bitmap.Canvas.Brush.Color := clWhite;
+  imgArea.Picture.Bitmap.Canvas.FillRect(Rect(0, 0, imgArea.Width, imgArea.Height));
+  imgArea.Refresh;
+end;
+
+end.

@@ -1,0 +1,151 @@
+unit View.Adapter;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmAdapter = class(TfrmDefault)
+    rgTomada: TRadioGroup;
+    rgPlug: TRadioGroup;
+    Panel1: TPanel;
+    btnLimpar: TButton;
+    btnConectar: TButton;
+    memLog: TMemo;
+    procedure FormCreate(Sender: TObject);
+    procedure btnConectarClick(Sender: TObject);
+    procedure btnLimparClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure ExecutarAdapter;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAdapter: TfrmAdapter;
+
+implementation
+
+{$R *.dfm}
+
+uses Structural.Adapter.AdapterEUAtoBrasil, Structural.Adapter.Plug,
+  Structural.Adapter.PlugAmericano, Structural.Adapter.PlugBrasileiro,
+  Structural.Adapter.Tomada, Structural.Adapter.TomadaAmericana,
+  Structural.Adapter.TomadaBrasileira;
+
+procedure TfrmAdapter.btnConectarClick(Sender: TObject);
+begin
+  inherited;
+  ExecutarAdapter;
+end;
+
+procedure TfrmAdapter.btnLimparClick(Sender: TObject);
+begin
+  inherited;
+  memLog.Clear;
+  rgTomada.ItemIndex := 0;
+  rgPlug.ItemIndex := 0;
+end;
+
+procedure TfrmAdapter.ExecutarAdapter;
+var
+  LPlug: TPlug;
+  LTomada: TTomada;
+  LMsg: string;
+begin
+  LPlug := nil;
+  LTomada := nil;
+
+  memLog.Lines.Add('--------------------------------------------');
+  memLog.Lines.Add('Simulando conexão entre plug e tomada...');
+
+  try
+    // 1) Cria o plug escolhido
+    case rgPlug.ItemIndex of
+      0:
+        begin
+          LPlug := TPlugBrasileiro.Create;
+          memLog.Lines.Add('Plug selecionado: Plug Brasileiro');
+        end;
+      1:
+        begin
+          LPlug := TPlugAmericano.Create;
+          memLog.Lines.Add('Plug selecionado: Plug Americano');
+        end;
+    else
+      memLog.Lines.Add('Nenhum plug selecionado.');
+      Exit;
+    end;
+
+    // 2) Cria a tomada (ou adapter) de acordo com a combinação
+    case rgTomada.ItemIndex of
+      0:  // Tomada Brasileira
+        begin
+          if LPlug is TPlugAmericano then
+          begin
+            // Caso interessante: plug americano em tomada brasileira
+            memLog.Lines.Add(
+              'Tomada selecionada: Tomada Brasileira (com Adapter EUA->Brasil).');
+            LTomada := TAdapterEUAtoBrasil.Create;
+          end
+          else
+          begin
+            memLog.Lines.Add('Tomada selecionada: Tomada Brasileira.');
+            LTomada := TTomadaBrasileira.Create;
+          end;
+        end;
+
+      1:  // Tomada Americana
+        begin
+          memLog.Lines.Add('Tomada selecionada: Tomada Americana.');
+
+          // Aqui estamos ignorando a incompatibilidade física só para o exemplo,
+          // e usando a tomada americana diretamente.
+          LTomada := TTomadaAmericana.Create;
+        end;
+    else
+      memLog.Lines.Add('Nenhuma tomada selecionada.');
+      Exit;
+    end;
+
+    // 3) Explica o que está acontecendo
+    if (rgTomada.ItemIndex = 0) and (LPlug is TPlugAmericano) then
+      memLog.Lines.Add('Situação: plug americano em tomada brasileira -> usa Adapter.')
+    else
+      memLog.Lines.Add('Situação: ligação direta (sem Adapter).');
+
+    // 4) Conecta e mostra o resultado
+    LMsg := LTomada.Conecta(LPlug);
+    memLog.Lines.Add('Resultado: ' + LMsg);
+
+    ShowMessage(LMsg);
+
+  finally
+    LTomada.Free;
+    LPlug.Free;
+  end;
+end;
+
+procedure TfrmAdapter.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  rgTomada.Caption := 'Tomada (Destino)';
+  rgTomada.Items.Clear;
+  rgTomada.Items.Add('Tomada Brasileira');
+  rgTomada.Items.Add('Tomada Americana');
+  rgTomada.ItemIndex := 0;
+
+  rgPlug.Caption := 'Plug (Origem)';
+  rgPlug.Items.Clear;
+  rgPlug.Items.Add('Plug Brasileiro');
+  rgPlug.Items.Add('Plug Americano');
+  rgPlug.ItemIndex := 0;
+
+  memLog.Clear;
+end;
+
+end.

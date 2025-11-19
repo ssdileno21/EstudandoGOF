@@ -1,0 +1,25 @@
+unit Builder.Sanduiche;
+
+interface
+
+uses
+  System.SysUtils;
+
+  type
+    TSanduiche = class
+      protected
+        FPao: string;
+        FRecheio: string;
+        FFechado: Boolean;
+      public
+        property Pao: string read FPao write FPao;
+        property Recheio: string read FRecheio write FRecheio;
+        property Fechado: Boolean read FFechado write FFechado;
+    end;
+
+implementation
+
+{ TSanduiche }
+
+
+end.

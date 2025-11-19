@@ -1,0 +1,33 @@
+unit Creational.AbstractFactory.ConcretePassagemOnibusUrbano;
+
+interface
+
+uses
+  System.SysUtils,
+  Vcl.Dialogs,
+  Creational.AbstractFactory.PassagemOnibusUrbano;
+
+  type
+    TConcretePassagemOnibusUrbano = class(TPassagemOnibusUrbano)
+      public
+        procedure ExibeDetalhes; override;
+    end;
+
+implementation
+
+{ TConcretePassagemOnibusUrbano }
+
+procedure TConcretePassagemOnibusUrbano.ExibeDetalhes;
+var
+  LMsg: string;
+begin
+  LMsg :=
+    'Passagem de ônibus urbana: ' +
+    Origem + ' para ' + Destino +
+    ', Data/Hora: ' +
+    FormatDateTime(FDateFormat, DataHoraPartida);
+
+    ShowMessage(LMsg);
+end;
+
+end.

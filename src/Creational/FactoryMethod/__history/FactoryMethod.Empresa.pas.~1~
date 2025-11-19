@@ -1,0 +1,11 @@
+unit FactoryMethod.Empresa;
+
+interface
+
+uses
+  System.SysUtils,
+  FactoryMethod.Passagem;
+
+implementation
+
+end.

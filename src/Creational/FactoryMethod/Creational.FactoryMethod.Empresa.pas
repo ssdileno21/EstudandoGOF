@@ -1,0 +1,36 @@
+{
+
+ É a fábrica abstrata (o Creator).
+
+ Declara o método fábrica: EmitirPassagem
+
+ Ela define a regra: “toda empresa sabe emitir uma passagem”.
+
+ Mas não define qual tipo de passagem concreta será criada.
+
+ Isso fica para as subclasses.
+
+}
+
+
+unit Creational.FactoryMethod.Empresa;
+
+interface
+
+uses
+  System.SysUtils,
+  Creational.FactoryMethod.Passagem;
+
+  type
+    TEmpresa = class abstract
+      public
+        function EmitirPassagem(
+          const AOrigem, ADestino: string;
+          const ADataHoraPartida: TDateTime
+        ): TPassagem; virtual; abstract;
+
+    end;
+
+implementation
+
+end.

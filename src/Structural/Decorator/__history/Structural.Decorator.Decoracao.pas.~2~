@@ -1,0 +1,21 @@
+unit Structural.Decorator.Decoracao;
+
+interface
+
+uses
+  Structural.Decorator.Arvore;
+
+  type
+    TDecoracao = class abstract(TArvore)
+    private
+      FArvore: TArvore;
+    public
+      constructor Create(AArvore: TArvore);
+      destructor Destroy; override;
+
+      function Mostrar: string; override; virtual;
+  end;
+
+implementation
+
+end.

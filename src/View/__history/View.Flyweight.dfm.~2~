@@ -1,0 +1,11 @@
+inherited frmFlyweight: TfrmFlyweight
+  Caption = 'Testar Flyweight'
+  ClientHeight = 433
+  StyleElements = [seFont, seClient, seBorder]
+  ExplicitHeight = 472
+  TextHeight = 15
+  inherited mInformacao: TMemo
+    Top = 260
+    StyleElements = [seFont, seClient, seBorder]
+  end
+end

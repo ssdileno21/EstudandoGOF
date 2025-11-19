@@ -1,0 +1,8 @@
+inherited frmStrategy: TfrmStrategy
+  Caption = 'Testar Strategy'
+  StyleElements = [seFont, seClient, seBorder]
+  TextHeight = 15
+  inherited mInformacao: TMemo
+    StyleElements = [seFont, seClient, seBorder]
+  end
+end

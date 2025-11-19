@@ -1,0 +1,42 @@
+unit Structural.Proxy.RealImage;
+
+interface
+
+uses
+  System.SysUtils,
+  Vcl.Dialogs,
+  Structural.Proxy.ImagemBase;
+
+  type
+    TRealImage = class(TImagemBase)
+    private
+      FNomeArquivo: string;
+      procedure CarregarDoDisco;
+    public
+      constructor Create(const ANomeArquivo: string);
+      procedure Exibir; override;
+   end;
+
+
+implementation
+
+{ TRealImage }
+
+procedure TRealImage.CarregarDoDisco;
+begin
+  ShowMessage('Carregando imagem do disco: ' + FNomeArquivo);
+end;
+
+constructor TRealImage.Create(const ANomeArquivo: string);
+begin
+  inherited Create;
+  FNomeArquivo := ANomeArquivo;
+  CarregarDoDisco;
+end;
+
+procedure TRealImage.Exibir;
+begin
+  ShowMessage('Exibindo imagem: ' + FNomeArquivo);
+end;
+
+end.

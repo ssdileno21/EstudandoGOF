@@ -1,0 +1,33 @@
+unit FactoryMethod.EmpresaOnibusUrbano;
+
+interface
+
+uses
+  System.SysUtils,
+  FactoryMethod.Empresa,
+  FactoryMethod.Passagem,
+  FactoryMethod.PassagemOnibusUrbano;
+
+  type
+    TEmpresaOnibusUrbano = class(TEmpresa)
+      function EmitirPassagem(
+        const AOrigem, ADestino: string;
+        const ADataHoraPartida: TDateTime
+      ): TPassagem; override;
+    end;
+
+implementation
+
+{ TEmpresaOnibusUrbano }
+
+function TEmpresaOnibusUrbano.EmitirPassagem(const AOrigem, ADestino: string;
+  const ADataHoraPartida: TDateTime): TPassagem;
+begin
+  Result := TPassagemOnibusUrbano.Create(
+    AOrigem,
+    ADestino,
+    ADataHoraPartida
+  );
+end;
+
+end.

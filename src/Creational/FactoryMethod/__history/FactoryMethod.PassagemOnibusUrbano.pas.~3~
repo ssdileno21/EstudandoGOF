@@ -1,0 +1,35 @@
+unit FactoryMethod.PassagemOnibusUrbano;
+
+interface
+
+uses
+  System.SysUtils,
+  Vcl.Dialogs,
+  FactoryMethod.Passagem;
+
+  type
+    TPassagemOnibusUrbano = class(TPassagem)
+
+    public
+      procedure ExibeDetalhes; override;
+    end;
+
+implementation
+
+{ TPassagemOnibusUrbano }
+
+procedure TPassagemOnibusUrbano.ExibeDetalhes;
+var
+  LMsg: string;
+begin
+  LMsg :=
+    'Passagem de Ônibus Urbana' + sLineBreak +
+    'Origem: ' + Origem + sLineBreak +
+    'Destino: ' + Destino + sLineBreak +
+    'Data/Hora de Partida: ' +
+      FormatDateTime(FDateFormat, DataHoraPartida);
+
+  ShowMessage(LMsg);
+end;
+
+end.

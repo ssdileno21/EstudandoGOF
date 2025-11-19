@@ -1,0 +1,105 @@
+unit View.FactoryMethod;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.WinXPickers;
+
+type
+  TfrmDefault1 = class(TfrmDefault)
+    GroupBox1: TGroupBox;
+    cbxOrigem: TComboBox;
+    rgTipoPassagem: TRadioGroup;
+    Label1: TLabel;
+    cbxDestino: TComboBox;
+    Label2: TLabel;
+    btnEmitirPassagem: TButton;
+    dpDataPartida: TDatePicker;
+    Label3: TLabel;
+    tpHoraPartida: TTimePicker;
+    Label4: TLabel;
+    procedure btnEmitirPassagemClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure PreencheComboOrigemDestino;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmDefault1: TfrmDefault1;
+
+implementation
+
+{$R *.dfm}
+
+uses FactoryMethod.Empresa, FactoryMethod.Passagem,
+  FactoryMethod.EmpresaOnibusInterestadual, FactoryMethod.EmpresaOnibusUrbano,
+  System.DateUtils;
+
+{ TfrmDefault1 }
+
+
+
+procedure TfrmDefault1.btnEmitirPassagemClick(Sender: TObject);
+var
+  LTipoPassagem: Integer;
+  LDataHora: TDateTime;
+
+  LViacaoABCLocal: TEmpresa;
+  LViacaoXYZInter: TEmpresa;
+  // Exemplo de polimorfismo, utilizando a mesma varável base: TEmpresa
+  LUrbano: TPassagem;
+  LInterestadual: TPassagem;
+begin
+  inherited;
+  if (cbxOrigem.Text = EmptyStr) then
+    Exit;
+
+  if (cbxDestino.Text = EmptyStr) then
+    Exit;
+
+  if (cbxOrigem.Text = cbxDestino.Text) then
+    Exit;
+
+  LTipoPassagem := rgTipoPassagem.ItemIndex;
+
+  LDataHora := Trunc(dpDataPartida.Date) + Frac(tpHoraPartida.Time);
+
+  if LTipoPassagem = 0 then
+  begin
+      LViacaoABCLocal := TEmpresaOnibusUrbano.Create;
+      try
+        LUrbano := LViacaoABCLocal.EmitirPassagem(
+          cbxOrigem.Text,
+          cbxDestino.Text,
+          LDataHora
+        );
+      finally
+        FreeAndNil(LViacaoABCLocal);
+      end;
+  end else
+  begin
+      LViacaoXYZInter := TEmpresaOnibusInterestadual.Create;
+      try
+        LInterestadual := LViacaoXYZInter.EmitirPassagem(
+          cbxOrigem.Text,
+          cbxDestino.Text,
+          LDataHora
+        );
+      finally
+        FreeAndNil(LViacaoXYZInter)
+
+      end;
+  end;
+
+end;
+
+procedure TfrmDefault1.PreencheComboOrigemDestino;
+begin
+
+end;
+
+end.

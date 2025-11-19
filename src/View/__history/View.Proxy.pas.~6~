@@ -1,0 +1,145 @@
+unit View.Proxy;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Buttons, Vcl.ExtDlgs, Structural.Proxy.ImagemBase;
+
+type
+  TfrmProxy = class(TfrmDefault)
+    gbTeste: TGroupBox;
+    memLog: TMemo;
+    Panel1: TPanel;
+    btnLimpar: TButton;
+    btnDireto: TButton;
+    btnViaProxy: TButton;
+    edtArquivo: TEdit;
+    Label1: TLabel;
+    Panel2: TPanel;
+    imgPreview: TImage;
+    dlgImagem: TOpenPictureDialog;
+    btnBuscar: TSpeedButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure btnBuscarClick(Sender: TObject);
+    procedure btnDiretoClick(Sender: TObject);
+    procedure btnViaProxyClick(Sender: TObject);
+  private
+    { Private declarations }
+    FProxy: TImagemBase;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmProxy: TfrmProxy;
+
+implementation
+
+{$R *.dfm}
+
+uses Structural.Proxy.ProxyImage, Structural.Proxy.RealImage;
+
+procedure TfrmProxy.btnBuscarClick(Sender: TObject);
+begin
+  inherited;
+  if dlgImagem.Execute then
+  begin
+    edtArquivo.Text := dlgImagem.FileName;
+    memLog.Lines.Add('Arquivo selecionado: ' + dlgImagem.FileName);
+
+    // sempre que trocar de arquivo, zeramos o proxy e o preview
+    FreeAndNil(FProxy);
+    imgPreview.Picture := nil;
+  end;
+end;
+
+procedure TfrmProxy.btnDiretoClick(Sender: TObject);
+var
+  LReal: TRealImage;
+begin
+  inherited;
+
+  if edtArquivo.Text = '' then
+  begin
+    ShowMessage('Selecione um arquivo de imagem.');
+    Exit;
+  end;
+
+  memLog.Lines.Add('---');
+  memLog.Lines.Add('Exibindo IMAGEM REAL diretamente (sem Proxy)...');
+  memLog.Lines.Add(Format('Criando nova TRealImage para "%s".',
+    [edtArquivo.Text]));
+
+  imgPreview.Picture := nil;
+
+  LReal := TRealImage.Create(edtArquivo.Text, imgPreview);
+  try
+    memLog.Lines.Add('Chamando LReal.Exibir;');
+    LReal.Exibir;
+    memLog.Lines.Add('Exibição concluída (imagem real).');
+  finally
+    LReal.Free;
+    memLog.Lines.Add('TRealImage liberada (sem manter cache).');
+  end;
+
+end;
+
+procedure TfrmProxy.btnViaProxyClick(Sender: TObject);
+begin
+  inherited;
+
+  if edtArquivo.Text = '' then
+  begin
+    ShowMessage('Selecione um arquivo de imagem.');
+    Exit;
+  end;
+
+  memLog.Lines.Add('---');
+  memLog.Lines.Add('Exibindo via PROXY...');
+
+  // Cria o proxy apenas na primeira vez para este arquivo
+  if FProxy = nil then
+  begin
+    memLog.Lines.Add(
+      Format('Proxy ainda não existe. Criando TProxyImage para "%s".',
+        [edtArquivo.Text]));
+    imgPreview.Picture := nil;
+    FProxy := TProxyImage.Create(edtArquivo.Text, imgPreview);
+  end
+  else
+  begin
+    memLog.Lines.Add('Proxy já existente. Reutilizando a mesma instância.');
+  end;
+
+  memLog.Lines.Add('Chamando FProxy.Exibir;');
+  FProxy.Exibir;
+  memLog.Lines.Add('Exibição concluída via proxy.');
+
+end;
+
+procedure TfrmProxy.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FProxy := nil;
+  memLog.Clear;
+
+  // Configuração visual do preview
+  imgPreview.Picture := nil;
+  imgPreview.Stretch := True;
+  imgPreview.Proportional := True;
+
+  dlgImagem.Filter :=
+    'Imagens|*.bmp;*.jpg;*.jpeg;*.png;*.gif|Todos os arquivos|*.*';
+
+end;
+
+procedure TfrmProxy.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FProxy);
+  inherited;
+end;
+
+end.

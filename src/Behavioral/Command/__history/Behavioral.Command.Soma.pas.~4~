@@ -1,0 +1,42 @@
+unit Behavioral.Command.Soma;
+
+interface
+
+uses
+  Behavioral.Command.Command,
+  Behavioral.Command.Calculadora;
+
+  type
+    TSoma = class(TCommand)
+    private
+      FCalculadora: TCalculadora;
+      FNumero: Integer;
+    public
+      constructor Create(ACalculadora: TCalculadora; ANumero: Integer);
+
+      procedure Execute; override;
+      procedure Undo; override;
+  end;
+
+implementation
+
+{ TSoma }
+
+constructor TSoma.Create(ACalculadora: TCalculadora; ANumero: Integer);
+begin
+  inherited Create;
+  FCalculadora := ACalculadora;
+  FNumero := ANumero;
+end;
+
+procedure TSoma.Execute;
+begin
+//  FCalculadora.Valor := FCalculadora.Valor + FNumero;
+end;
+
+procedure TSoma.Undo;
+begin
+//  FCalculadora.Valor := FCalculadora.Valor - FNumero;
+end;
+
+end.

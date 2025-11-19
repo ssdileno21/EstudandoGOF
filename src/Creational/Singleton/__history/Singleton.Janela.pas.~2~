@@ -1,0 +1,35 @@
+unit Singleton.Janela;
+
+interface
+
+uses
+  System.SysUtils, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Winapi.Windows, Winapi.Messages, System.Classes;
+
+type
+  TJanela = class
+  private
+    class var FInstance: TJanela;
+    constructor Create; // construtor privado
+  public
+    class function GetInstance: TJanela;
+  end;
+
+implementation
+
+{ TJanela }
+
+constructor TJanela.Create;
+begin
+  inherited Create(nil);
+  Width := 640;
+  Height := 480;
+  Caption := 'Janela Singleton';
+end;
+
+class function TJanela.GetInstance: TJanela;
+begin
+
+end;
+
+end.

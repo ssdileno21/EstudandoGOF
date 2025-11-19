@@ -1,0 +1,37 @@
+unit View.Proxy;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Buttons, Vcl.ExtDlgs;
+
+type
+  TfrmProxy = class(TfrmDefault)
+    gbTeste: TGroupBox;
+    memLog: TMemo;
+    Panel1: TPanel;
+    btnLimpar: TButton;
+    btnDireto: TButton;
+    btnViaProxy: TButton;
+    edtArquivo: TEdit;
+    Label1: TLabel;
+    Panel2: TPanel;
+    Image1: TImage;
+    OpenPictureDialog1: TOpenPictureDialog;
+    SpeedButton1: TSpeedButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmProxy: TfrmProxy;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,546 @@
+unit View.Main;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls;
+
+type
+  TfrmMain = class(TForm)
+    Panel2: TPanel;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    TabSheet3: TTabSheet;
+    Panel3: TPanel;
+    GroupBox6: TGroupBox;
+    btnTestarBridge: TButton;
+    GroupBox1: TGroupBox;
+    btnTestarAdapter: TButton;
+    GroupBox2: TGroupBox;
+    btnProxy: TButton;
+    GroupBox3: TGroupBox;
+    btnTestarDecorator: TButton;
+    GroupBox4: TGroupBox;
+    btnTestarComposite: TButton;
+    GroupBox5: TGroupBox;
+    btnTestarFacade: TButton;
+    GroupBox7: TGroupBox;
+    btnTestarFlyweight: TButton;
+    TabSheet4: TTabSheet;
+    Panel1: TPanel;
+    gbxSingleton: TGroupBox;
+    btnTestarSingleton: TButton;
+    gbxFactoryMethod: TGroupBox;
+    btnTestarFactoryMethod: TButton;
+    gbxAbstractFactory: TGroupBox;
+    btnTestarAbstractFactory: TButton;
+    gbxBuilder: TGroupBox;
+    btnTestarBuilder: TButton;
+    gbxPrototype: TGroupBox;
+    btnTestarPrototype: TButton;
+    memoBehavioral: TMemo;
+    Memo2: TMemo;
+    memoStructural: TMemo;
+    memoCreational: TMemo;
+    Panel4: TPanel;
+    GroupBox8: TGroupBox;
+    btnTestarCommand: TButton;
+    GroupBox9: TGroupBox;
+    btnTestarStrategy: TButton;
+    GroupBox10: TGroupBox;
+    btnTestarState: TButton;
+    GroupBox11: TGroupBox;
+    btnTestarObserver: TButton;
+    GroupBox12: TGroupBox;
+    btnTestarMediator: TButton;
+    GroupBox13: TGroupBox;
+    btnTestarChainOfResponsability: TButton;
+    GroupBox14: TGroupBox;
+    btnTestarTemplateMethod: TButton;
+    GroupBox15: TGroupBox;
+    btnTestarInterpreter: TButton;
+    GroupBox16: TGroupBox;
+    btnTestarMemento: TButton;
+    GroupBox17: TGroupBox;
+    btnTestarIterator: TButton;
+    GroupBox18: TGroupBox;
+    btnTestarVisitor: TButton;
+    procedure btnTestarSingletonClick(Sender: TObject);
+    procedure btnTestarFactoryMethodClick(Sender: TObject);
+    procedure btnTestarAbstractFactoryClick(Sender: TObject);
+    procedure btnTestarBuilderClick(Sender: TObject);
+    procedure btnTestarPrototypeClick(Sender: TObject);
+    procedure btnTestarBridgeClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnTestarAdapterClick(Sender: TObject);
+    procedure btnProxyClick(Sender: TObject);
+    procedure btnTestarDecoratorClick(Sender: TObject);
+    procedure btnTestarCompositeClick(Sender: TObject);
+    procedure btnTestarFacadeClick(Sender: TObject);
+    procedure btnTestarFlyweightClick(Sender: TObject);
+    procedure memoCreationalClick(Sender: TObject);
+    procedure memoStructuralClick(Sender: TObject);
+    procedure memoBehavioralClick(Sender: TObject);
+    procedure btnTestarCommandClick(Sender: TObject);
+    procedure btnTestarStrategyClick(Sender: TObject);
+    procedure btnTestarStateClick(Sender: TObject);
+    procedure btnTestarObserverClick(Sender: TObject);
+    procedure btnTestarMediatorClick(Sender: TObject);
+    procedure btnTestarChainOfResponsabilityClick(Sender: TObject);
+    procedure btnTestarTemplateMethodClick(Sender: TObject);
+    procedure btnTestarInterpreterClick(Sender: TObject);
+    procedure btnTestarMementoClick(Sender: TObject);
+    procedure btnTestarIteratorClick(Sender: TObject);
+    procedure btnTestarVisitorClick(Sender: TObject);
+  private
+    { Private declarations }
+
+    //Creational
+    procedure TestarAbstractFactory;
+    procedure TestarFactoryMethod;
+    procedure TestarPrototype;
+    procedure TestarSingleton;
+    procedure TestarBuilder;
+    //Structural
+    procedure TestarBridge;
+    procedure TestarAdapter;
+    procedure TestarProxy;
+    procedure TestarDecorator;
+    procedure TestarComposite;
+    procedure TestarFacade;
+    procedure TestarFlyweight;
+    //Behavioral
+    procedure TestarCommand;
+    procedure TestarStrategy;
+    procedure TestarState;
+    procedure TestarObserver;
+    procedure TestarMediator;
+    procedure TestarChainofResponsability;
+    procedure TestarTemplateMethod;
+    procedure TestarInterpreter;
+    procedure TestarMemento;
+    procedure TestarIterator;
+    procedure TestarVisitor;
+
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMain: TfrmMain;
+
+implementation
+
+{$R *.dfm}
+
+uses View.SingletonTest, Creational.FactoryMethod.Empresa,
+  Creational.FactoryMethod.EmpresaOnibusInterestadual,
+  Creational.FactoryMethod.EmpresaOnibusUrbano,
+  Creational.FactoryMethod.Passagem, System.DateUtils, View.FactoryMethod,
+  View.AbstractFactory, View.Builder, View.Prototype, View.Bridge, View.Adapter,
+  View.Proxy, Structural.Decorator.Arvore, View.Decorator, View.Composite,
+  View.Facade, View.Flyweight, View.Command, View.Strategy, View.State,
+  View.Observer, View.Mediator, View.ChainOfResponsability, View.TemplateMethod,
+  View.Interpreter, View.Memento;
+
+procedure TfrmMain.btnProxyClick(Sender: TObject);
+begin
+  TestarProxy;
+end;
+
+procedure TfrmMain.btnTestarAbstractFactoryClick(Sender: TObject);
+begin
+  TestarAbstractFactory;
+end;
+
+procedure TfrmMain.btnTestarFacadeClick(Sender: TObject);
+begin
+  TestarFacade;
+end;
+
+procedure TfrmMain.btnTestarFactoryMethodClick(Sender: TObject);
+begin
+  TestarFactoryMethod;
+end;
+
+procedure TfrmMain.btnTestarFlyweightClick(Sender: TObject);
+begin
+  TestarFlyweight;
+end;
+
+procedure TfrmMain.btnTestarInterpreterClick(Sender: TObject);
+begin
+  TestarInterpreter;
+end;
+
+procedure TfrmMain.btnTestarIteratorClick(Sender: TObject);
+begin
+  TestarIterator;
+end;
+
+procedure TfrmMain.btnTestarMediatorClick(Sender: TObject);
+begin
+  TestarMediator;
+end;
+
+procedure TfrmMain.btnTestarMementoClick(Sender: TObject);
+begin
+  TestarMemento;
+end;
+
+procedure TfrmMain.btnTestarObserverClick(Sender: TObject);
+begin
+  TestarObserver;
+end;
+
+procedure TfrmMain.btnTestarPrototypeClick(Sender: TObject);
+begin
+  TestarPrototype;
+end;
+
+procedure TfrmMain.btnTestarSingletonClick(Sender: TObject);
+begin
+  TestarSingleton;
+end;
+
+procedure TfrmMain.btnTestarStateClick(Sender: TObject);
+begin
+  TestarState;
+end;
+
+procedure TfrmMain.btnTestarStrategyClick(Sender: TObject);
+begin
+  TestarStrategy;
+end;
+
+procedure TfrmMain.btnTestarTemplateMethodClick(Sender: TObject);
+begin
+  TestarTemplateMethod;
+end;
+
+procedure TfrmMain.btnTestarVisitorClick(Sender: TObject);
+begin
+  TestarVisitor;
+end;
+
+procedure TfrmMain.btnTestarDecoratorClick(Sender: TObject);
+begin
+  TestarDecorator;
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+begin
+  PageControl1.ActivePageIndex := 0;
+end;
+
+procedure TfrmMain.memoBehavioralClick(Sender: TObject);
+begin
+  PageControl1.ActivePageIndex := 3;
+end;
+
+procedure TfrmMain.memoCreationalClick(Sender: TObject);
+begin
+  PageControl1.ActivePageIndex := 1;
+end;
+
+procedure TfrmMain.memoStructuralClick(Sender: TObject);
+begin
+  PageControl1.ActivePageIndex := 2;
+end;
+
+procedure TfrmMain.TestarAbstractFactory;
+var
+  LfrmAbstractFactory: TfrmAbstractFactory;
+begin
+  LfrmAbstractFactory := TfrmAbstractFactory.Create(Nil);
+  try
+    LfrmAbstractFactory.ShowModal;
+  finally
+    FreeAndNil(LfrmAbstractFactory);
+  end;
+end;
+
+procedure TfrmMain.TestarAdapter;
+var
+  LfrmAdapter: TfrmAdapter;
+begin
+  LfrmAdapter := TfrmAdapter.Create(Nil);
+  try
+    LfrmAdapter.ShowModal;
+  finally
+    FreeAndNil(LfrmAdapter);
+  end;
+end;
+
+procedure TfrmMain.TestarBridge;
+var
+  LfrmBridge: TfrmBridge;
+begin
+  LfrmBridge := TfrmBridge.Create(Nil);
+  try
+    LfrmBridge.ShowModal;
+  finally
+    FreeAndNil(LfrmBridge);
+  end;
+end;
+
+procedure TfrmMain.TestarBuilder;
+var
+  LfrmBuilder: TfrmBuilder;
+begin
+  LfrmBuilder := TfrmBuilder.Create(Nil);
+  try
+    LfrmBuilder.ShowModal;
+  finally
+    FreeAndNil(LfrmBuilder);
+  end;
+end;
+
+procedure TfrmMain.TestarChainofResponsability;
+var
+  LChainofResponsability: TfrmChainOfResponsability;
+begin
+  LChainofResponsability := TfrmChainOfResponsability.Create(Nil);
+  try
+    LChainofResponsability.ShowModal;
+  finally
+    FreeAndNil(LChainofResponsability);
+  end;
+end;
+
+procedure TfrmMain.TestarCommand;
+var
+  LfrmCommand: TfrmCommand;
+begin
+  LfrmCommand := TfrmCommand.Create(Nil);
+  try
+    LfrmCommand.ShowModal;
+  finally
+    FreeAndNil(LfrmCommand);
+  end;
+end;
+
+procedure TfrmMain.TestarComposite;
+var
+  LfrmComposite: TfrmComposite;
+begin
+  LfrmComposite := TfrmComposite.Create(Nil);
+  try
+    LfrmComposite.ShowModal;
+  finally
+    FreeAndNil(LfrmComposite);
+  end;
+end;
+
+procedure TfrmMain.TestarDecorator;
+var
+  LfrmDecorator : TfrmDecorator;
+begin
+  LfrmDecorator := TfrmDecorator.Create(Nil);
+  try
+    LfrmDecorator.ShowModal;
+  finally
+    FreeAndNil(LfrmDecorator);
+  end;
+end;
+
+procedure TfrmMain.TestarFacade;
+var
+  LfrmFacade: TfrmFacade;
+begin
+  LfrmFacade := TfrmFacade.Create(Nil);
+  try
+    LfrmFacade.ShowModal;
+  finally
+    FreeAndNil(LfrmFacade);
+  end;
+end;
+
+procedure TfrmMain.TestarFactoryMethod;
+var
+  LfrmFactoryMethod: TfrmFactoryMethod;
+begin
+  LfrmFactoryMethod := TfrmFactoryMethod.Create(Nil);
+  try
+    LfrmFactoryMethod.ShowModal;
+  finally
+    FreeAndNil(LfrmFactoryMethod);
+  end;
+end;
+
+procedure TfrmMain.TestarFlyweight;
+var
+  LfrmFlyweight: TfrmFlyweight;
+begin
+  LfrmFlyweight := TfrmFlyweight.Create(Nil);
+  try
+    LfrmFlyweight.ShowModal;
+  finally
+    FreeAndNil(LfrmFlyweight);
+  end;
+end;
+
+procedure TfrmMain.TestarInterpreter;
+var
+  LInterpreter: TfrmInterpreter;
+begin
+  LInterpreter := TfrmInterpreter.Create(Nil);
+  try
+    LInterpreter.ShowModal;
+  finally
+    FreeAndNil(LInterpreter);
+  end;
+end;
+
+procedure TfrmMain.TestarIterator;
+begin
+
+end;
+
+procedure TfrmMain.TestarMediator;
+var
+  LMediator: TfrmMediator;
+begin
+  LMediator := TfrmMediator.Create(Nil);
+  try
+    LMediator.ShowModal;
+  finally
+    FreeAndNil(LMediator);
+  end;
+end;
+
+procedure TfrmMain.TestarMemento;
+var
+  LfrmMemento: TfrmMemento;
+begin
+  LfrmMemento := TfrmMemento.Create(Nil);
+  try
+    LfrmMemento.ShowModal;
+  finally
+    FreeAndNil(LfrmMemento);
+  end;
+end;
+
+procedure TfrmMain.TestarObserver;
+var
+  LfrmObserver: TfrmObserver;
+begin
+  LfrmObserver := TfrmObserver.Create(Nil);
+  try
+    LfrmObserver.ShowModal;
+  finally
+    FreeAndNil(LfrmObserver);
+  end;
+end;
+
+procedure TfrmMain.TestarPrototype;
+var
+  LfrmPrototype: TfrmPrototype;
+begin
+  LfrmPrototype := TfrmPrototype.Create(Nil);
+  try
+    LfrmPrototype.ShowModal;
+  finally
+    FreeAndNil(LfrmPrototype);
+  end;
+end;
+
+procedure TfrmMain.TestarProxy;
+var
+  LfrmProx: TfrmProxy;
+begin
+  LfrmProx := TfrmProxy.Create(Nil);
+  try
+    LfrmProx.ShowModal;
+  finally
+    FreeAndNil(LfrmProx);
+  end;
+end;
+
+procedure TfrmMain.TestarSingleton;
+var
+  LfrmSingletonTest: TfrmSingletonTest;
+begin
+  LfrmSingletonTest := TfrmSingletonTest.Create(Nil);
+  try
+    LfrmSingletonTest.ShowModal;
+  finally
+    FreeAndNil(LfrmSingletonTest);
+  end;
+end;
+
+procedure TfrmMain.TestarState;
+var
+  LfrmState: TfrmState;
+begin
+  LfrmState := TfrmState.Create(Nil);
+  try
+    LfrmState.ShowModal;
+  finally
+    FreeAndNil(LfrmState);
+  end;
+end;
+
+procedure TfrmMain.TestarStrategy;
+var
+  LfrmStrategy: TfrmStrategy;
+begin
+  LfrmStrategy := TfrmStrategy.Create(Nil);
+  try
+    LfrmStrategy.ShowModal;
+  finally
+    FreeAndNil(LfrmStrategy);
+  end;
+end;
+
+procedure TfrmMain.TestarTemplateMethod;
+var
+  LfrmTemplateMethod: TfrmTemplateMethod;
+begin
+  LfrmTemplateMethod := LfrmTemplateMethod.Create(Nil);
+  try
+    LfrmTemplateMethod.ShowModal;
+  finally
+    FreeAndNil(LfrmTemplateMethod);
+  end;
+end;
+
+procedure TfrmMain.TestarVisitor;
+begin
+
+end;
+
+procedure TfrmMain.btnTestarAdapterClick(Sender: TObject);
+begin
+  TestarAdapter;
+end;
+
+procedure TfrmMain.btnTestarBridgeClick(Sender: TObject);
+begin
+  TestarBridge;
+end;
+
+procedure TfrmMain.btnTestarBuilderClick(Sender: TObject);
+begin
+  TestarBuilder;
+end;
+
+procedure TfrmMain.btnTestarChainOfResponsabilityClick(Sender: TObject);
+begin
+  TestarChainofResponsability;
+end;
+
+procedure TfrmMain.btnTestarCommandClick(Sender: TObject);
+begin
+  TestarCommand;
+end;
+
+procedure TfrmMain.btnTestarCompositeClick(Sender: TObject);
+begin
+  TestarComposite;
+end;
+
+end.

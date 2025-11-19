@@ -1,0 +1,15 @@
+unit Behavioral.Command.Command;
+
+interface
+
+type
+  TCommand = class abstract
+  public
+    procedure Execute; virtual; abstract;
+    procedure Undo; virtual; abstract;
+  end;
+
+
+implementation
+
+end.

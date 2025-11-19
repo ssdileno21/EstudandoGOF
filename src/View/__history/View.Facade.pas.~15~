@@ -1,0 +1,131 @@
+unit View.Facade;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Structural.Facade.Facade;
+
+type
+  TfrmFacade = class(TfrmDefault)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    memLog: TMemo;
+    btnMetodoA: TButton;
+    btnMetodoB: TButton;
+    btnLimpar: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure btnMetodoAClick(Sender: TObject);
+    procedure btnMetodoBClick(Sender: TObject);
+    procedure btnLimparClick(Sender: TObject);
+  private
+    { Private declarations }
+    FFacade: TFacade;
+    procedure ExecutarFacade(const AMetodo: Char);
+  public
+    { Public declarations }
+  end;
+
+var
+  frmFacade: TfrmFacade;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmFacade.btnLimparClick(Sender: TObject);
+begin
+  inherited;
+  memLog.Clear;
+end;
+
+procedure TfrmFacade.btnMetodoAClick(Sender: TObject);
+begin
+  inherited;
+  ExecutarFacade('A');
+end;
+
+procedure TfrmFacade.btnMetodoBClick(Sender: TObject);
+begin
+  inherited;
+  ExecutarFacade('B');
+end;
+
+procedure TfrmFacade.ExecutarFacade(const AMetodo: Char);
+begin
+  memLog.Clear;
+
+  case ACenario of
+    'A':
+      begin
+        memLog.Lines.Add('Operação A - SEM Facade (exemplo conceitual):');
+        memLog.Lines.Add('');
+        memLog.Lines.Add('Como o cliente teria que fazer sem Facade:');
+        memLog.Lines.Add('');
+        memLog.Lines.Add('  s1 := TSubsistemaUm.Create;');
+        memLog.Lines.Add('  s1.MetodoUm;');
+        memLog.Lines.Add('  s2 := TSubsistemaDois.Create;');
+        memLog.Lines.Add('  s2.MetodoDois;');
+        memLog.Lines.Add('  s3 := TSubsistemaTres.Create;');
+        memLog.Lines.Add('  s3.MetodoTres;');
+        memLog.Lines.Add('');
+        memLog.Lines.Add('Saída esperada (cada subsistema escrevendo algo):');
+        memLog.Lines.Add('');
+        memLog.Lines.Add('  método do subsistema um.');
+        memLog.Lines.Add('  método do subsistema dois.');
+        memLog.Lines.Add('  método do subsistema três.');
+        memLog.Lines.Add('');
+        memLog.Lines.Add('Problemas nesse cenário:');
+        memLog.Lines.Add(' - O cliente conhece todas as classes de subsistema;');
+        memLog.Lines.Add(' - Precisa saber a ordem correta das chamadas;');
+        memLog.Lines.Add(' - Se a regra ou a quantidade de subsistemas mudar,');
+        memLog.Lines.Add('   o código do cliente precisa ser alterado.');
+      end;
+
+    'B':
+      begin
+        memLog.Lines.Add('Operação B - COM Facade (execução real):');
+        memLog.Lines.Add('');
+        memLog.Lines.Add('Código do cliente usando Facade:');
+        memLog.Lines.Add('');
+        memLog.Lines.Add('  facade.MetodoA;');
+        memLog.Lines.Add('');
+        memLog.Lines.Add('Saída em tempo de execução (Facade orquestra os subsistemas):');
+        memLog.Lines.Add('');
+
+        // aqui sim, chama a fachada de verdade
+        FFacade.MetodoA(memLog.Lines);
+
+        memLog.Lines.Add('');
+        memLog.Lines.Add('Vantagens nesse cenário:');
+        memLog.Lines.Add(' - O cliente depende apenas de TFacade;');
+        memLog.Lines.Add(' - Detalhes de TSubsistemaUm/Dois/Tres ficam escondidos;');
+        memLog.Lines.Add(' - Se a ordem ou a quantidade de chamadas mudar,');
+        memLog.Lines.Add('   só a implementação da Facade é alterada.');
+      end;
+  end;
+
+  memLog.Lines.Add('');
+  memLog.Lines.Add('Resumo do padrão Facade:');
+  memLog.Lines.Add(' - Oferece uma interface simples para um conjunto de subsistemas.');
+  memLog.Lines.Add(' - Reduz o acoplamento entre o cliente e as classes internas.');
+  memLog.Lines.Add(' - Ideal para organizar código legado complexo em uma API mais limpa.');
+end;
+
+procedure TfrmFacade.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FFacade := TFacade.Create;
+  memLog.Clear;
+  memLog.ScrollBars := ssVertical;
+end;
+
+procedure TfrmFacade.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FFacade);
+  inherited;
+end;
+
+end.

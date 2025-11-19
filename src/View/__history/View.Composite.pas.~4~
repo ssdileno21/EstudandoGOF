@@ -1,0 +1,61 @@
+unit View.Composite;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls,
+  Structural.Composite.Empregado,
+  Structural.Composite.Programador,
+  Structural.Composite.Gerente;
+
+type
+  TfrmComposite = class(TfrmDefault)
+    Memo1: TMemo;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+  private
+    { Private declarations }
+    FRaiz: TEmpregado;
+    procedure MontarEstruturaPadrao;
+    procedure AtualizarLog;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmComposite: TfrmComposite;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmComposite }
+
+procedure TfrmComposite.AtualizarLog;
+begin
+
+end;
+
+procedure TfrmComposite.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FRaiz := nil;
+  memLog.Clear;
+  memLog.ScrollBars := ssVertical;
+
+  MontarEstruturaPadrao; // já mostra algo ao abrir
+end;
+
+procedure TfrmComposite.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FRaiz);
+  inherited;
+end;
+
+procedure TfrmComposite.MontarEstruturaPadrao;
+begin
+
+end;
+
+end.

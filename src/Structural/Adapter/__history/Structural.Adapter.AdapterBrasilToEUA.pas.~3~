@@ -1,0 +1,30 @@
+unit Structural.Adapter.AdapterBrasilToEUA;
+
+interface
+
+uses
+  Structural.Adapter.TomadaAmericana,
+  Structural.Adapter.Plug,
+  Structural.Adapter.PlugBrasileiro;
+
+  type
+    TAdapterBrasilToEUA = class(TTomadaAmericana)
+  public
+    function Conecta(APlug: TPlug): string; override;
+  end;
+
+implementation
+
+{ TAdapterBrasilToEUA }
+
+function TAdapterBrasilToEUA.Conecta(APlug: TPlug): string;
+begin
+  // Se for plug brasileiro, "adapta" para a rede americana
+  if APlug is TPlugBrasileiro then
+    Result := APlug.ObtemEletricidade + GetNomeRede
+  else
+    // Qualquer outro plug usa o comportamento normal da tomada americana
+    Result := inherited Conecta(APlug);
+end;
+
+end.

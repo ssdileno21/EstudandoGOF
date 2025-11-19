@@ -1,0 +1,109 @@
+unit View.AbstractFactory;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls,
+  Vcl.WinXPickers, Vcl.ExtCtrls;
+
+type
+  TfrmAbstractFactory = class(TfrmDefault)
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    cbxOrigem: TComboBox;
+    rgTipoPassagem: TRadioGroup;
+    cbxDestino: TComboBox;
+    btnEmitirPassagem: TButton;
+    dpDataPartida: TDatePicker;
+    tpHoraPartida: TTimePicker;
+    procedure btnEmitirPassagemClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAbstractFactory: TfrmAbstractFactory;
+
+implementation
+
+{$R *.dfm}
+
+uses AbstractFactory.EmpresaOnibus, AbstractFactory.ConcreteEmpresaOnibus,
+  AbstractFactory.PassagemOnibusInterestadual,
+  AbstractFactory.PassagemOnibusUrbano;
+
+procedure TfrmAbstractFactory.btnEmitirPassagemClick(Sender: TObject);
+var
+  LEmpresa: TEmpresaOnibus;
+  LTipoPassagem: Integer;
+  LDataHora: TDateTime;
+  LPassagemUrbana: TPassagemOnibusUrbano;
+  LPassagemInterestadual: TPassagemOnibusInterestadual;
+begin
+  inherited;
+  if (cbxOrigem.Text = EmptyStr) then
+    Exit;
+
+  if (cbxDestino.Text = EmptyStr) then
+    Exit;
+
+  if (cbxOrigem.Text = cbxDestino.Text) then
+    Exit;
+
+  LTipoPassagem := rgTipoPassagem.ItemIndex;
+  LDataHora := Trunc(dpDataPartida.Date) + Frac(tpHoraPartida.Time);
+
+  LEmpresa := TConcreteEmpresaOnibus.Create;
+
+  try
+    case LTipoPassagem of
+      0:
+        begin
+          LPassagemUrbana := LEmpresa.EmitirPassagemOnibusUrbano(
+            cbxOrigem.Text,
+            cbxDestino.Text,
+            LDataHora
+          );
+          try
+            LPassagemUrbana.ExibeDetalhes;
+          finally
+            FreeAndNil(LPassagemUrbana);
+          end;
+        end;
+      1:
+        begin
+          LPassagemInterestadual := LEmpresa.EmitirPassagemOnibusInterestadual(
+
+            cbxOrigem.Text,
+            cbxDestino.Text,
+            LDataHora
+          );
+          try
+            LPassagemInterestadual.ExibeDetalhes;
+          finally
+            FreeAndNil(LPassagemInterestadual);
+          end;
+        end else
+          ShowMessage('Tipo de passagem inválido');
+    end;
+
+  finally
+
+  end;
+
+
+
+
+
+
+
+
+end;
+
+end.

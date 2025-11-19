@@ -1,0 +1,63 @@
+unit View.Flyweight;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmFlyweight = class(TfrmDefault)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    btnDesenhar: TButton;
+    btnLimpar: TButton;
+    memLog: TMemo;
+    Panel3: TPanel;
+    Image1: TImage;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+    procedure LimparArea;
+    procedure DesenharExemplo;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmFlyweight: TfrmFlyweight;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmFlyweight }
+
+procedure TfrmFlyweight.DesenharExemplo;
+begin
+
+end;
+
+procedure TfrmFlyweight.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  memLog.Clear;
+  memLog.ScrollBars := ssVertical;
+
+  imgArea.Picture.Bitmap := TBitmap.Create;
+  imgArea.Picture.Bitmap.SetSize(imgArea.Width, imgArea.Height);
+  LimparArea;
+
+  btnDesenhar.Caption := 'Desenhar figuras (Flyweight)';
+  btnLimpar.Caption   := 'Limpar';
+end;
+
+procedure TfrmFlyweight.LimparArea;
+begin
+  imgArea.Picture.Bitmap.Canvas.Brush.Color := clWhite;
+  imgArea.Picture.Bitmap.Canvas.FillRect(Rect(0, 0, imgArea.Width, imgArea.Height));
+  imgArea.Refresh;
+end;
+
+end.

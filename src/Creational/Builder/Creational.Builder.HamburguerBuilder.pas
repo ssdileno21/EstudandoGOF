@@ -1,0 +1,57 @@
+unit Creational.Builder.HamburguerBuilder;
+
+interface
+
+uses
+  Creational.Builder.SanduicheBuilder,
+  Creational.Builder.Sanduiche,
+  Creational.Builder.Hamburguer;
+
+  type
+    THamburguerBuilder = class(TSanduicheBuilder)
+      public
+        constructor Create; override;
+
+        procedure AbrePao; override;
+        procedure InsereIngredientes; override;
+        procedure FechaPao; override;
+    end;
+
+
+implementation
+
+{ THamburguerBuilder }
+
+procedure THamburguerBuilder.AbrePao;
+begin
+  FSanduiche.Pao := 'Pão de Hambúrguer';
+  FSanduiche.Tamanho := 'Duplo';
+  FSanduiche.Molho := 'Maionese da casa';
+  FSanduiche.Preco := 28.90;
+  FSanduiche.Fechado := False;
+
+  if FSanduiche is THamburguer then
+  begin
+    THamburguer(FSanduiche).PontoDaCarne := 'Ao ponto';
+    THamburguer(FSanduiche).TemBacon := True;
+  end;
+
+end;
+
+constructor THamburguerBuilder.Create;
+begin
+  inherited Create;
+  FSanduiche := THamburguer.Create;
+end;
+
+procedure THamburguerBuilder.FechaPao;
+begin
+  FSanduiche.Fechado := True;
+end;
+
+procedure THamburguerBuilder.InsereIngredientes;
+begin
+  FSanduiche.Recheio := 'Carne bovina 100g, queijo cheddar, bacon, alface, tomate';
+end;
+
+end.

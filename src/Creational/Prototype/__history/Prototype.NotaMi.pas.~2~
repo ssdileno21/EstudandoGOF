@@ -1,0 +1,23 @@
+unit Prototype.NotaMi;
+
+interface
+
+uses
+  Prototype.NotaMusical;
+
+  type
+    TMi = class(TNotaMusical)
+      public
+        procedure Desenha; override;
+    end;
+
+implementation
+
+{ TMi }
+
+procedure TMi.Desenha;
+begin
+  Write('Mi ');
+end;
+
+end.

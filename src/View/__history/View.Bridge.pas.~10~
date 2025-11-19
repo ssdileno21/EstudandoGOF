@@ -1,0 +1,140 @@
+unit View.Bridge;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, View.Default, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfrmBridge = class(TfrmDefault)
+    GroupBox1: TGroupBox;
+    rgImplementacao: TRadioGroup;
+    rgProfessor: TRadioGroup;
+    Panel1: TPanel;
+    btnExecutar: TButton;
+    Panel2: TPanel;
+    memLog: TMemo;
+    procedure FormCreate(Sender: TObject);
+    procedure btnExecutarClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure ExecutarBridge;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmBridge: TfrmBridge;
+
+implementation
+
+{$R *.dfm}
+
+uses Structural.Bridge.Implementador, Structural.Bridge.Professor,
+  Structural.Bridge.ProfessorGraduacao, Structural.Bridge.ProfessorImpGraduacao,
+  Structural.Bridge.ProfessorPosGraduacao,
+  Structural.Bridge.ProfessorImpPosGraduacao;
+
+{ TfrmBridge }
+
+procedure TfrmBridge.btnExecutarClick(Sender: TObject);
+begin
+  inherited;
+  ExecutarBridge;
+end;
+
+procedure TfrmBridge.ExecutarBridge;
+var
+  LImp: TImplementador;
+  LProf: TProfessor;
+  LDescProf, LDescImp: string;
+begin
+  memLog.Lines.Add('--------------------------------------------');
+  memLog.Lines.Add('1) Lendo opções selecionadas na tela...');
+
+  // 1. Escolhe a implementação
+  case rgImplementacao.ItemIndex of
+    0:
+      begin
+        LImp := TProfessorImpGraduacao.Create;
+        LDescImp := 'Implementãção Graduação';
+      end;
+    1:
+      begin
+        LImp := TProfessorImplPosGraduacao.Create;
+        LDescImp := 'Implementação Pós-Graduação';
+      end;
+  else
+    ShowMessage('Selecione uma implementação.');
+    Exit;
+  end;
+
+  memLog.Lines.Add(Format('   -> Implementação criada: %s (%s)',
+    [LDescImp, LImp.ClassName]));
+
+  case rgProfessor.ItemIndex of
+    0:
+      begin
+        LProf := TProfessorGraduacao.Create(LImp);
+        LDescProf := 'Professor Graduação';
+      end;
+    1:
+      begin
+        LProf := TProfessorPosGraduacao.Create(Nil);
+        LDescProf := 'Professor Pós-Graduação';
+      end;
+    else
+      begin
+        FreeAndNil(LImp);
+        ShowMessage('Selecione um tipo de professor');
+        Exit;
+      end;
+
+    memLog.Lines.Add(Format('   -> Abstração criada: %s (%s)',
+      [LDescProf, LProf.ClassName]));
+    memLog.Lines.Add('');
+    memLog.Lines.Add('2) A abstração recebe a implementação via construtor.');
+    memLog.Lines.Add('     (TProfessor guarda a referência em FImp: TImplementador)');
+    memLog.Lines.Add('');
+    memLog.Lines.Add('3) A tela chama LProf.Op; o Professor delega parte do trabalho');
+    memLog.Lines.Add('     para FImp.OpImpl (lado da implementação).');
+    memLog.Lines.Add('     A mensagem que aparecer em seguida (ShowMessage) vem da');
+    memLog.Lines.Add('     classe de implementação concreta escolhida.');
+    memLog.Lines.Add('');
+
+    // 3) Aqui a “ponte” acontece de verdade
+    LProf.Op;
+
+    memLog.Lines.Add('');
+    memLog.Lines.Add('4) Execução concluída. Observe que podemos combinar qualquer');
+    memLog.Lines.Add('   tipo de Professor com qualquer Implementação sem criar');
+    memLog.Lines.Add('   novas subclasses para cada combinação.');
+    memLog.Lines.Add('');
+
+    FreeAndNil(LProf); // o Professor destrói o Implementador internamente
+
+  end;
+end;
+
+procedure TfrmBridge.FormCreate(Sender: TObject);
+begin
+  inherited;
+
+  //RadioGroup de Professor
+  rgProfessor.Caption := 'Tipo de Professor (Abstração)';
+  rgProfessor.Items.Clear;
+  rgProfessor.Items.Add('Professor Graduação');
+  rgProfessor.Items.Add('Professor Pós-Graduação');
+  rgProfessor.ItemIndex := 0;
+
+  //RadioGroup de Implementador
+  rgImplementacao.Caption := 'Implementação (Implementador)';
+  rgImplementacao.Items.Clear;
+  rgImplementacao.Items.Add('Imp. Graduação');
+  rgImplementacao.Items.Add('Imp. Pós-Graduação');
+  rgImplementacao.ItemIndex := 0;
+
+end;
+
+end.

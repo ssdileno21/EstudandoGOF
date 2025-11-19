@@ -1,0 +1,34 @@
+unit Builder.Sanduiche;
+
+interface
+
+uses
+  System.SysUtils;
+
+  type
+    TSanduiche = class
+      protected
+        FPao: string;
+        FRecheio: string;
+        FFechado: Boolean;
+      public
+        property Pao: string read FPao write FPao;
+        property Recheio: string read FRecheio write FRecheio;
+        property Fechado: Boolean read FFechado write FFechado;
+
+        function Descricao: string; virtual;
+    end;
+
+implementation
+
+{ TSanduiche }
+
+function TSanduiche.Descricao: string;
+begin
+  if FFechado then
+    Result := Format('%s com %s (fechado)', [FPao, FRecheio])
+  else
+    Result := Format('%s com %s (Aberto)', [FPao, FRecheio]);
+end;
+
+end.

@@ -1,0 +1,30 @@
+{
+
+ É a fábrica abstrata (o Creator).
+
+ Declara o método fábrica:
+
+}
+
+
+unit FactoryMethod.Empresa;
+
+interface
+
+uses
+  System.SysUtils,
+  FactoryMethod.Passagem;
+
+  type
+    TEmpresa = class abstract
+      public
+        function EmitirPassagem(
+          const AOrigem, ADestino: string;
+          const ADataHoraPartida: TDateTime
+        ): TPassagem; virtual; abstract;
+
+    end;
+
+implementation
+
+end.
