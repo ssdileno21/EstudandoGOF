@@ -1,8 +1,0 @@
-inherited frmDefault1: TfrmDefault1
-  Caption = 'frmDefault1'
-  StyleElements = [seFont, seClient, seBorder]
-  TextHeight = 15
-  inherited mInformacao: TMemo
-    StyleElements = [seFont, seClient, seBorder]
-  end
-end

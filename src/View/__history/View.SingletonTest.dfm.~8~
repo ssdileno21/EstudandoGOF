@@ -1,9 +1,0 @@
-inherited frmSingletonTest: TfrmSingletonTest
-  Caption = 'frmSingletonTest'
-  StyleElements = [seFont, seClient, seBorder]
-  OnCreate = FormCreate
-  TextHeight = 15
-  inherited mInformacao: TMemo
-    StyleElements = [seFont, seClient, seBorder]
-  end
-end

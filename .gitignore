@@ -11,3 +11,6 @@ Win64/
 Win64
 Win64
 src/View/__recovery/
+bin/
+*.exe
+__history/
