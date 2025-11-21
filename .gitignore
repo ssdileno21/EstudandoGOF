@@ -3,3 +3,11 @@ __history/
 *.local
 Win32/
 Win64
+*.dproj.local
+*.local
+Win32/
+Win64/
+*.dcu
+Win64
+Win64
+src/View/__recovery/
