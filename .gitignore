@@ -1,0 +1,5 @@
+__history/
+*.dproj.local
+*.local
+Win32/
+Win64
